@@ -1,0 +1,126 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nova Venda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+
+  <!-- Seção Cliente -->
+  <div class="section-block animate-fade-in-up">
+    <p class="vp-section-title">👤 Cliente</p>
+    <div class="select-wrap">
+      <ion-select
+        id="select-cliente"
+        placeholder="Selecione o cliente..."
+        [(ngModel)]="clienteSelecionadoId"
+        interface="action-sheet"
+        cancelText="Cancelar"
+        class="vp-select">
+        <ion-select-option *ngFor="let c of clientes" [value]="c.id">
+          {{ c.nome }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+  </div>
+
+  <!-- Busca de Produto -->
+  <div class="section-block animate-fade-in-up animate-delay-1">
+    <p class="vp-section-title">📦 Adicionar Produto</p>
+    <div class="search-input-wrap">
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+      <ion-input
+        id="busca-produto-venda"
+        type="text"
+        placeholder="Buscar produto por nome ou código..."
+        [(ngModel)]="termoProduto"
+        (ionInput)="filtrarProdutos()"
+        class="search-input">
+      </ion-input>
+    </div>
+
+    <!-- Resultados da busca -->
+    <div class="produtos-resultado" *ngIf="termoProduto && produtosFiltrados.length > 0">
+      <div *ngFor="let p of produtosFiltrados.slice(0, 5)"
+           class="produto-resultado-item"
+           (click)="adicionarProduto(p)">
+        <div class="pr-info">
+          <span class="pr-nome">{{ p.nome }}</span>
+          <span class="pr-cod">{{ p.codigo_barras }}</span>
+        </div>
+        <div class="pr-right">
+          <span class="pr-preco">R$ {{ p.preco | number:'1.2-2' }}</span>
+          <span class="pr-estoque">{{ p.estoque }} un.</span>
+        </div>
+        <ion-icon name="add-circle-outline" class="pr-add-icon"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Sem resultados -->
+    <div class="no-results" *ngIf="termoProduto && produtosFiltrados.length === 0">
+      Nenhum produto encontrado com estoque disponível.
+    </div>
+  </div>
+
+  <!-- Carrinho -->
+  <div class="section-block animate-fade-in-up animate-delay-2" *ngIf="carrinho.length > 0">
+    <p class="vp-section-title">🛒 Carrinho ({{ carrinho.length }} iten{{ carrinho.length !== 1 ? 's' : '' }})</p>
+
+    <div class="carrinho-list">
+      <div *ngFor="let item of carrinho" class="carrinho-item" [id]="'item-carrinho-' + item.produto.id">
+        <div class="ci-info">
+          <span class="ci-nome">{{ item.produto.nome }}</span>
+          <span class="ci-preco-unit">R$ {{ item.produto.preco | number:'1.2-2' }} / un.</span>
+        </div>
+        <div class="ci-controls">
+          <button class="qty-btn" (click)="decrementar(item)">
+            <ion-icon name="remove-outline"></ion-icon>
+          </button>
+          <span class="qty-value">{{ item.quantidade }}</span>
+          <button class="qty-btn" (click)="incrementar(item)">
+            <ion-icon name="add-outline"></ion-icon>
+          </button>
+        </div>
+        <div class="ci-right">
+          <span class="ci-subtotal">R$ {{ item.subtotal | number:'1.2-2' }}</span>
+          <button class="remove-btn" (click)="remover(item)">
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Carrinho vazio -->
+  <div class="carrinho-vazio animate-fade-in-up" *ngIf="carrinho.length === 0">
+    <div class="empty-icon">🛒</div>
+    <p>Nenhum produto no carrinho</p>
+  </div>
+
+  <!-- Erro -->
+  <div class="erro-msg animate-fade-in-up" *ngIf="erro">
+    <span>⚠️ {{ erro }}</span>
+  </div>
+
+  <!-- Rodapé de Checkout -->
+  <div class="checkout-footer animate-fade-in-up animate-delay-3" *ngIf="carrinho.length > 0">
+    <div class="checkout-total">
+      <span class="total-label">Total</span>
+      <span class="total-value">R$ {{ total | number:'1.2-2' }}</span>
+    </div>
+    <ion-button
+      id="btn-finalizar-venda"
+      expand="block"
+      class="btn-finalizar"
+      (click)="finalizar()"
+      [disabled]="!podeFinalizarVenda || finalizando">
+      <ion-spinner *ngIf="finalizando" name="crescent" slot="start"></ion-spinner>
+      <ion-icon *ngIf="!finalizando" name="checkmark-circle-outline" slot="start"></ion-icon>
+      {{ finalizando ? 'Finalizando...' : 'Finalizar Venda' }}
+    </ion-button>
+  </div>
+
+</ion-content>

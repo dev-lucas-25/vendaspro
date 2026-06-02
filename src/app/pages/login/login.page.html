@@ -1,0 +1,83 @@
+<ion-content class="login-content">
+  <div class="login-wrapper">
+    <!-- Logo / Header -->
+    <div class="login-header animate-fade-in-up">
+      <div class="logo-circle">
+        <span class="logo-icon">💼</span>
+      </div>
+      <h1 class="app-name">VendaPro</h1>
+      <p class="app-tagline">Gestão comercial inteligente</p>
+    </div>
+
+    <!-- Card de Login -->
+    <div class="login-card animate-fade-in-up animate-delay-1">
+      <h2 class="card-title">Bem-vindo de volta</h2>
+      <p class="card-subtitle">Entre com suas credenciais para continuar</p>
+
+      <!-- Campo Login -->
+      <div class="input-group">
+        <label class="input-label">Usuário</label>
+        <div class="input-wrapper" [class.has-value]="loginValue">
+          <ion-icon name="person-outline" class="input-icon"></ion-icon>
+          <ion-input
+            id="login-input"
+            type="text"
+            placeholder="Digite seu usuário"
+            [(ngModel)]="loginValue"
+            (keyup.enter)="entrar()"
+            autocomplete="username"
+            fill="outline"
+            class="vp-input">
+          </ion-input>
+        </div>
+      </div>
+
+      <!-- Campo Senha -->
+      <div class="input-group">
+        <label class="input-label">Senha</label>
+        <div class="input-wrapper" [class.has-value]="senha">
+          <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+          <ion-input
+            id="senha-input"
+            type="password"
+            placeholder="Digite sua senha"
+            [(ngModel)]="senha"
+            (keyup.enter)="entrar()"
+            autocomplete="current-password"
+            fill="outline"
+            class="vp-input">
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
+        </div>
+      </div>
+
+      <!-- Mensagem de erro -->
+      <div class="erro-msg animate-fade-in-up" *ngIf="erro">
+        <span class="erro-icon">⚠️</span>
+        <span>{{ erro }}</span>
+      </div>
+
+      <!-- Botão Entrar -->
+      <ion-button
+        id="btn-entrar"
+        expand="block"
+        class="btn-entrar"
+        (click)="entrar()"
+        [disabled]="loading">
+        <ion-spinner *ngIf="loading" name="crescent" slot="start"></ion-spinner>
+        <ion-icon *ngIf="!loading" name="log-in-outline" slot="start"></ion-icon>
+        {{ loading ? 'Entrando...' : 'Entrar' }}
+      </ion-button>
+
+      <!-- Info padrão -->
+      <div class="default-info">
+        <p>Primeiro acesso: <strong>admin</strong> / <strong>admin123</strong></p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer animate-fade-in-up animate-delay-2">
+      <p>VendaPro &copy; 2025 — Todos os direitos reservados</p>
+    </div>
+  </div>
+</ion-content>

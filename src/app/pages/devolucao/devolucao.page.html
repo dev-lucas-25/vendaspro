@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Devolução</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+  <div class="form-header animate-fade-in-up">
+    <div class="form-icon">↩️</div>
+    <h2>Registrar Devolução</h2>
+    <p>Selecione a venda e o produto a devolver</p>
+  </div>
+
+  <div class="vp-form animate-fade-in-up animate-delay-1">
+
+    <!-- Selecionar Venda -->
+    <div class="field-group">
+      <label class="field-label">Venda</label>
+      <div class="select-wrap">
+        <ion-select
+          id="select-venda-devolucao"
+          placeholder="Selecione a venda..."
+          [(ngModel)]="vendaSelecionadaId"
+          (ionChange)="carregarVenda()"
+          interface="action-sheet"
+          cancelText="Cancelar"
+          class="vp-select">
+          <ion-select-option *ngFor="let v of vendas" [value]="v.id">
+            Venda #{{ v.id }} — {{ v.cliente?.nome }}
+          </ion-select-option>
+        </ion-select>
+      </div>
+    </div>
+
+    <!-- Loading da venda -->
+    <div *ngIf="carregandoVenda" class="loading-venda">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+
+    <!-- Itens da Venda -->
+    <div *ngIf="vendaDetalhe && !carregandoVenda">
+
+      <!-- Info do cliente -->
+      <div class="venda-info-card">
+        <div class="info-row">
+          <span>Cliente:</span>
+          <strong>{{ vendaDetalhe.cliente?.nome }}</strong>
+        </div>
+        <div class="info-row">
+          <span>Total:</span>
+          <strong>R$ {{ vendaDetalhe.total | number:'1.2-2' }}</strong>
+        </div>
+      </div>
+
+      <!-- Selecionar Produto -->
+      <div class="field-group">
+        <label class="field-label">Produto para Devolver</label>
+        <div class="select-wrap">
+          <ion-select
+            id="select-produto-devolucao"
+            placeholder="Selecione o produto..."
+            [(ngModel)]="produtoSelecionadoId"
+            interface="action-sheet"
+            cancelText="Cancelar"
+            class="vp-select">
+            <ion-select-option *ngFor="let item of vendaDetalhe.itens" [value]="item.produto_id">
+              {{ item.produto?.nome }} ({{ item.quantidade }} un.)
+            </ion-select-option>
+          </ion-select>
+        </div>
+      </div>
+
+      <!-- Quantidade -->
+      <div class="field-group">
+        <label class="field-label">Quantidade</label>
+        <div class="field-input-wrap">
+          <ion-input
+            id="campo-qtd-devolucao"
+            type="number"
+            placeholder="1"
+            [(ngModel)]="quantidade"
+            inputmode="numeric"
+            min="1"
+            class="vp-field-input">
+          </ion-input>
+        </div>
+      </div>
+    </div>
+
+    <!-- Erro -->
+    <div class="erro-msg animate-fade-in-up" *ngIf="erro">
+      <span>⚠️ {{ erro }}</span>
+    </div>
+
+    <!-- Botão -->
+    <ion-button
+      id="btn-confirmar-devolucao"
+      expand="block"
+      class="btn-devolver"
+      (click)="registrarDevolucao()"
+      [disabled]="!podeDevolver || processando">
+      <ion-spinner *ngIf="processando" name="crescent" slot="start"></ion-spinner>
+      <ion-icon *ngIf="!processando" name="return-down-back-outline" slot="start"></ion-icon>
+      {{ processando ? 'Processando...' : 'Confirmar Devolução' }}
+    </ion-button>
+  </div>
+</ion-content>

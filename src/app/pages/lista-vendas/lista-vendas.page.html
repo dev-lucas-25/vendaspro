@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Vendas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="carregando" class="vp-empty-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!carregando && vendas.length === 0" class="vp-empty-state animate-fade-in-up">
+    <div class="empty-icon">🛒</div>
+    <div class="empty-title">Nenhuma venda registrada</div>
+    <div class="empty-desc">Toque no + para registrar a primeira venda.</div>
+  </div>
+
+  <p class="vp-section-title" *ngIf="!carregando && vendas.length > 0">
+    {{ vendas.length }} venda{{ vendas.length !== 1 ? 's' : '' }} registrada{{ vendas.length !== 1 ? 's' : '' }}
+  </p>
+
+  <div class="vendas-list animate-fade-in-up">
+    <div *ngFor="let venda of vendas"
+         class="venda-card"
+         [id]="'venda-' + venda.id"
+         (click)="verDetalhes(venda)">
+
+      <div class="venda-num">
+        <span class="num-label">Venda</span>
+        <span class="num-val">#{{ venda.id }}</span>
+      </div>
+
+      <div class="venda-info">
+        <div class="venda-cliente">
+          <ion-icon name="person-outline"></ion-icon>
+          <span>{{ venda.cliente?.nome || 'Cliente não encontrado' }}</span>
+        </div>
+        <div class="venda-data">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ formatarData(venda.data_venda) }}</span>
+        </div>
+      </div>
+
+      <div class="venda-valor">
+        <span>R$ {{ venda.total | number:'1.2-2' }}</span>
+        <ion-icon name="arrow-forward-outline" class="arrow-icon"></ion-icon>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button id="btn-nova-venda" class="vp-fab" (click)="novaVenda()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

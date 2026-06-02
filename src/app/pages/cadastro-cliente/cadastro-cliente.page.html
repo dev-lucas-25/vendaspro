@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/lista-clientes" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Novo Cliente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+  <div class="form-header animate-fade-in-up">
+    <div class="form-icon">👥</div>
+    <h2>Cadastro de Cliente</h2>
+    <p>Preencha os dados do novo cliente</p>
+  </div>
+
+  <div class="vp-form animate-fade-in-up animate-delay-1">
+    <!-- Nome -->
+    <div class="field-group">
+      <label class="field-label">Nome Completo *</label>
+      <div class="field-input-wrap">
+        <ion-icon name="person-outline" class="field-icon"></ion-icon>
+        <ion-input
+          id="campo-nome-cliente"
+          type="text"
+          placeholder="Ex: João da Silva"
+          [(ngModel)]="cliente.nome"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- CPF -->
+    <div class="field-group">
+      <label class="field-label">CPF *</label>
+      <div class="field-input-wrap">
+        <ion-icon name="card-outline" class="field-icon"></ion-icon>
+        <ion-input
+          id="campo-cpf-cliente"
+          type="text"
+          placeholder="000.000.000-00"
+          [value]="cliente.cpf"
+          (ionInput)="formatarCpf($event)"
+          inputmode="numeric"
+          maxlength="14"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Telefone -->
+    <div class="field-group">
+      <label class="field-label">Telefone *</label>
+      <div class="field-input-wrap">
+        <ion-icon name="call-outline" class="field-icon"></ion-icon>
+        <ion-input
+          id="campo-telefone-cliente"
+          type="tel"
+          placeholder="(00) 00000-0000"
+          [value]="cliente.telefone"
+          (ionInput)="formatarTelefone($event)"
+          inputmode="tel"
+          maxlength="15"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="field-group">
+      <label class="field-label">E-mail *</label>
+      <div class="field-input-wrap">
+        <ion-icon name="mail-outline" class="field-icon"></ion-icon>
+        <ion-input
+          id="campo-email-cliente"
+          type="email"
+          placeholder="email@exemplo.com"
+          [(ngModel)]="cliente.email"
+          inputmode="email"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Erro -->
+    <div class="erro-msg animate-fade-in-up" *ngIf="erro">
+      <span>⚠️ {{ erro }}</span>
+    </div>
+
+    <!-- Botão Salvar -->
+    <ion-button
+      id="btn-salvar-cliente"
+      expand="block"
+      class="btn-salvar"
+      (click)="salvar()"
+      [disabled]="salvando">
+      <ion-spinner *ngIf="salvando" name="crescent" slot="start"></ion-spinner>
+      <ion-icon *ngIf="!salvando" name="save-outline" slot="start"></ion-icon>
+      {{ salvando ? 'Salvando...' : 'Cadastrar Cliente' }}
+    </ion-button>
+  </div>
+</ion-content>

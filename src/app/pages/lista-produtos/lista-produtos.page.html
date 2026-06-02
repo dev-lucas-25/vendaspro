@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Produtos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-searchbar
+    id="busca-produto"
+    placeholder="Buscar por nome ou código..."
+    [(ngModel)]="termoBusca"
+    (ionInput)="filtrar()"
+    [debounce]="200"
+    class="vp-searchbar">
+  </ion-searchbar>
+
+  <div *ngIf="carregando" class="vp-empty-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!carregando && produtosFiltrados.length === 0" class="vp-empty-state animate-fade-in-up">
+    <div class="empty-icon">📦</div>
+    <div class="empty-title">
+      {{ termoBusca ? 'Nenhum resultado' : 'Nenhum produto cadastrado' }}
+    </div>
+    <div class="empty-desc">
+      {{ termoBusca ? 'Tente outra busca.' : 'Toque no + para adicionar o primeiro produto.' }}
+    </div>
+  </div>
+
+  <p class="vp-section-title" *ngIf="!carregando && produtos.length > 0">
+    {{ produtosFiltrados.length }} produto{{ produtosFiltrados.length !== 1 ? 's' : '' }}
+  </p>
+
+  <div class="produtos-list animate-fade-in-up">
+    <div *ngFor="let produto of produtosFiltrados"
+         class="produto-card"
+         [id]="'produto-' + produto.id">
+      <div class="produto-icon">
+        <ion-icon name="cube-outline"></ion-icon>
+      </div>
+      <div class="produto-info">
+        <h3 class="produto-nome">{{ produto.nome }}</h3>
+        <p class="produto-desc" *ngIf="produto.descricao">{{ produto.descricao }}</p>
+        <div class="produto-cod">
+          <ion-icon name="pricetag-outline"></ion-icon>
+          {{ produto.codigo_barras }}
+        </div>
+      </div>
+      <div class="produto-right">
+        <div class="produto-preco">R$ {{ produto.preco | number:'1.2-2' }}</div>
+        <div class="estoque-badge" [class]="estoqueClass(produto.estoque)">
+          {{ estoqueLabel(produto.estoque) }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button id="btn-novo-produto" class="vp-fab" (click)="novoProduto()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

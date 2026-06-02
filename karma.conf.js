@@ -5,6 +5,12 @@ module.exports = function (config) {
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    files: [
+      { pattern: 'node_modules/sql.js/dist/*.wasm', watched: false, included: false, served: true, nocache: false }
+    ],
+    proxies: {
+      '/assets/': '/base/node_modules/sql.js/dist/'
+    },
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),

@@ -33,6 +33,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "*.wasm",
+                "input": "node_modules/sql.js/dist",
+                "output": "assets/"
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
@@ -107,6 +112,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "*.wasm",
+                "input": "node_modules/sql.js/dist",
+                "output": "assets/"
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
@@ -129,7 +139,10 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@ionic/angular-toolkit"]
+    "schematicCollections": [
+      "@ionic/angular-toolkit"
+    ],
+    "analytics": "6695fb2b-9101-4eb8-97ee-77ca22434c16"
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

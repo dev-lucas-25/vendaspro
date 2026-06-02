@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <span class="toolbar-brand">💼 VendaPro</span>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="btn-sair" (click)="sair()" fill="clear" class="btn-logout">
+        <ion-icon name="log-out-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+
+  <!-- Saudação -->
+  <div class="greeting-section animate-fade-in-up">
+    <div class="greeting-text">
+      <p class="greeting-sub">{{ saudacao }},</p>
+      <h1 class="greeting-name">{{ usuario?.nome || 'Usuário' }} 👋</h1>
+    </div>
+    <div class="greeting-date">
+    <span>{{ currentDate | date:'dd/MM' }}</span>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid animate-fade-in-up animate-delay-1">
+    <div class="stat-chip" id="stat-vendas">
+      <div class="stat-icon" style="background: rgba(108,99,255,0.15)">🛒</div>
+      <div class="stat-info">
+        <div class="stat-val">{{ stats.totalVendas }}</div>
+        <div class="stat-lbl">Vendas</div>
+      </div>
+    </div>
+    <div class="stat-chip" id="stat-faturado">
+      <div class="stat-icon" style="background: rgba(0,212,170,0.15)">💰</div>
+      <div class="stat-info">
+        <div class="stat-val">R$ {{ stats.valorVendido | number:'1.0-0' }}</div>
+        <div class="stat-lbl">Faturado</div>
+      </div>
+    </div>
+    <div class="stat-chip" id="stat-estoque">
+      <div class="stat-icon" style="background: rgba(255,179,71,0.15)">📦</div>
+      <div class="stat-info">
+        <div class="stat-val">{{ stats.estoque }}</div>
+        <div class="stat-lbl">Estoque</div>
+      </div>
+    </div>
+    <div class="stat-chip" id="stat-pendentes">
+      <div class="stat-icon" style="background: rgba(255,75,110,0.15)">⏳</div>
+      <div class="stat-info">
+        <div class="stat-val">{{ stats.pendentes }}</div>
+        <div class="stat-lbl">Pendentes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Action -->
+  <div class="quick-action animate-fade-in-up animate-delay-2">
+    <button class="btn-nova-venda" id="btn-nova-venda-quick" (click)="navegar('/nova-venda')">
+      <span class="btn-icon">🛒</span>
+      <div class="btn-text">
+        <span class="btn-title">Nova Venda</span>
+        <span class="btn-desc">Registrar venda agora</span>
+      </div>
+      <ion-icon name="arrow-forward-outline" class="btn-arrow"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Grade de Módulos -->
+  <p class="vp-section-title animate-fade-in-up animate-delay-2">Módulos</p>
+
+  <div class="menu-grid animate-fade-in-up animate-delay-3">
+    <button
+      *ngFor="let item of menuItems; let i = index"
+      class="menu-item"
+      [id]="'menu-item-' + i"
+      (click)="navegar(item.rota)">
+      <div class="item-icon" [style.background]="item.cor + '22'" [style.color]="item.cor">
+        <ion-icon [name]="item.icon"></ion-icon>
+      </div>
+      <div class="item-info">
+        <span class="item-label">{{ item.label }}</span>
+        <span class="item-desc">{{ item.desc }}</span>
+      </div>
+      <ion-icon name="arrow-forward-outline" class="item-arrow"></ion-icon>
+    </button>
+  </div>
+
+</ion-content>

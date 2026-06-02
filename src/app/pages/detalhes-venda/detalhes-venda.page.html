@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/lista-vendas" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Venda #{{ venda?.id }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+
+  <div *ngIf="carregando" class="vp-empty-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!carregando && !venda" class="vp-empty-state animate-fade-in-up">
+    <div class="empty-icon">❌</div>
+    <div class="empty-title">Venda não encontrada</div>
+  </div>
+
+  <div *ngIf="!carregando && venda" class="animate-fade-in-up">
+
+    <!-- Resumo da Venda -->
+    <div class="venda-resumo">
+      <div class="resumo-total">
+        <span class="rt-label">Total da Venda</span>
+        <span class="rt-valor">R$ {{ venda.total | number:'1.2-2' }}</span>
+      </div>
+      <div class="resumo-meta">
+        <div class="meta-item">
+          <ion-icon name="person-outline"></ion-icon>
+          <span>{{ venda.cliente?.nome }}</span>
+        </div>
+        <div class="meta-item">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>{{ formatarData(venda.data_venda) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Financeiro -->
+    <div class="financeiro-block" *ngIf="recebimento">
+      <p class="vp-section-title">💰 Financeiro</p>
+      <div class="financeiro-card">
+        <div class="fin-row">
+          <span class="fin-label">Valor</span>
+          <span class="fin-val">R$ {{ recebimento.valor | number:'1.2-2' }}</span>
+        </div>
+        <div class="fin-row">
+          <span class="fin-label">Status</span>
+          <span class="vp-badge" [class]="statusClass(recebimento.status)">{{ recebimento.status }}</span>
+        </div>
+        <div class="fin-row" *ngIf="recebimento.data_pagamento">
+          <span class="fin-label">Pago em</span>
+          <span class="fin-val">{{ formatarData(recebimento.data_pagamento) }}</span>
+        </div>
+
+        <ion-button
+          id="btn-registrar-pagamento"
+          expand="block"
+          class="btn-pagar"
+          *ngIf="recebimento.status === 'Pendente'"
+          (click)="registrarPagamento()"
+          [disabled]="processando">
+          <ion-spinner *ngIf="processando" name="crescent" slot="start"></ion-spinner>
+          <ion-icon *ngIf="!processando" name="wallet-outline" slot="start"></ion-icon>
+          {{ processando ? 'Processando...' : 'Registrar Pagamento' }}
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Itens da Venda -->
+    <p class="vp-section-title">🧾 Itens da Venda</p>
+
+    <div class="itens-list">
+      <div *ngFor="let item of venda.itens" class="item-venda-card">
+        <div class="item-info">
+          <span class="item-nome">{{ item.produto?.nome }}</span>
+          <span class="item-cod">{{ item.produto?.codigo_barras }}</span>
+        </div>
+        <div class="item-calc">
+          <span class="item-qty">{{ item.quantidade }} × R$ {{ item.preco_unitario | number:'1.2-2' }}</span>
+          <span class="item-subtotal">R$ {{ item.subtotal | number:'1.2-2' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações -->
+    <div class="acoes-block">
+      <ion-button
+        id="btn-devolucao"
+        expand="block"
+        fill="outline"
+        class="btn-devolucao"
+        (click)="irParaDevolucao()">
+        <ion-icon name="return-down-back-outline" slot="start"></ion-icon>
+        Registrar Devolução
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

@@ -1,37 +1,380 @@
 /*
- * App Global CSS
- * ----------------------------------------------------------------------------
- * Put style rules here that you want to apply globally. These styles are for
- * the entire app and not just one component. Additionally, this file can be
- * used as an entry point to import other CSS/Sass files to be included in the
- * output CSS.
- * For more information on global stylesheets, visit the documentation:
- * https://ionicframework.com/docs/layout/global-stylesheets
+ * App Global CSS - VendaPro
  */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
-
-/* Basic CSS for apps built with Ionic */
 @import "@ionic/angular/css/normalize.css";
 @import "@ionic/angular/css/structure.css";
 @import "@ionic/angular/css/typography.css";
 @import "@ionic/angular/css/display.css";
-
-/* Optional CSS utils that can be commented out */
 @import "@ionic/angular/css/padding.css";
 @import "@ionic/angular/css/float-elements.css";
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+/* ======================================
+   VendaPro Design System
+   ====================================== */
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+:root {
+  --vp-primary: #6C63FF;
+  --vp-primary-light: #8B84FF;
+  --vp-primary-dark: #4E46D4;
+  --vp-accent: #00D4AA;
+  --vp-accent-light: #33DDBB;
+  --vp-danger: #FF4B6E;
+  --vp-warning: #FFB347;
+  --vp-success: #00D4AA;
+
+  --vp-bg-dark: #0D0F1A;
+  --vp-bg-card: #151826;
+  --vp-bg-card-hover: #1C1F32;
+  --vp-bg-input: #1A1D2E;
+  --vp-border: rgba(255, 255, 255, 0.08);
+  --vp-border-focus: rgba(108, 99, 255, 0.6);
+
+  --vp-text-primary: #F0F2FF;
+  --vp-text-secondary: #8B8FA8;
+  --vp-text-muted: #555870;
+
+  --vp-radius-sm: 8px;
+  --vp-radius-md: 12px;
+  --vp-radius-lg: 16px;
+  --vp-radius-xl: 24px;
+
+  --vp-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --vp-shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --vp-shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --vp-shadow-glow: 0 0 30px rgba(108, 99, 255, 0.25);
+
+  --ion-background-color: var(--vp-bg-dark);
+  --ion-text-color: var(--vp-text-primary);
+  --ion-toolbar-background: var(--vp-bg-card);
+  --ion-item-background: var(--vp-bg-card);
+  --ion-card-background: var(--vp-bg-card);
+  --ion-color-primary: var(--vp-primary);
+  --ion-color-primary-rgb: 108, 99, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #4e46d4;
+  --ion-color-primary-tint: #8b84ff;
+  --ion-border-color: var(--vp-border);
+  --ion-font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ======================================
+   Ion Overrides
+   ====================================== */
+ion-content {
+  --background: var(--vp-bg-dark);
+}
+
+ion-header ion-toolbar {
+  --background: var(--vp-bg-card);
+  --border-color: var(--vp-border);
+  --color: var(--vp-text-primary);
+  border-bottom: 1px solid var(--vp-border);
+}
+
+ion-header ion-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--vp-text-primary);
+}
+
+ion-back-button {
+  --color: var(--vp-primary-light);
+}
+
+ion-item {
+  --background: var(--vp-bg-input);
+  --border-color: var(--vp-border);
+  --color: var(--vp-text-primary);
+  --padding-start: 14px;
+  --inner-padding-end: 14px;
+  border-radius: var(--vp-radius-md);
+  margin-bottom: 10px;
+  border: 1px solid var(--vp-border);
+}
+
+ion-item.item-has-focus {
+  --border-color: var(--vp-primary);
+  border-color: var(--vp-border-focus);
+}
+
+ion-label {
+  color: var(--vp-text-secondary) !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+ion-input {
+  --color: var(--vp-text-primary);
+  --placeholder-color: var(--vp-text-muted);
+  font-size: 0.95rem;
+}
+
+ion-select {
+  --color: var(--vp-text-primary);
+  --placeholder-color: var(--vp-text-muted);
+}
+
+ion-textarea {
+  --color: var(--vp-text-primary);
+  --placeholder-color: var(--vp-text-muted);
+}
+
+ion-button {
+  --border-radius: var(--vp-radius-md);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+ion-button[fill="solid"] {
+  --background: var(--vp-primary);
+  --background-hover: var(--vp-primary-light);
+  --background-activated: var(--vp-primary-dark);
+  --box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
+}
+
+ion-button[color="danger"] {
+  --background: var(--vp-danger);
+  --box-shadow: 0 4px 15px rgba(255, 75, 110, 0.3);
+}
+
+ion-card {
+  --background: var(--vp-bg-card);
+  border-radius: var(--vp-radius-lg);
+  border: 1px solid var(--vp-border);
+  box-shadow: var(--vp-shadow-md);
+  margin: 0 0 12px 0;
+}
+
+ion-card-header {
+  padding-bottom: 4px;
+}
+
+ion-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--vp-text-primary);
+}
+
+ion-card-subtitle {
+  font-size: 0.8rem;
+  color: var(--vp-text-secondary);
+}
+
+ion-chip {
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+ion-list {
+  background: transparent;
+  padding: 0;
+}
+
+ion-list-header {
+  --background: transparent;
+  padding-left: 0;
+}
+
+ion-badge {
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+}
+
+/* ======================================
+   Utility Classes
+   ====================================== */
+.vp-page-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 80px;
+}
+
+.vp-section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--vp-text-muted);
+  margin: 20px 0 10px;
+}
+
+.vp-card {
+  background: var(--vp-bg-card);
+  border-radius: var(--vp-radius-lg);
+  border: 1px solid var(--vp-border);
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--vp-bg-card-hover);
+    border-color: rgba(108, 99, 255, 0.3);
+    transform: translateY(-1px);
+    box-shadow: var(--vp-shadow-md);
+  }
+}
+
+.vp-stat-card {
+  background: var(--vp-bg-card);
+  border-radius: var(--vp-radius-lg);
+  border: 1px solid var(--vp-border);
+  padding: 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--vp-shadow-md);
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--vp-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .stat-info {
+    flex: 1;
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--vp-text-secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .stat-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--vp-text-primary);
+      line-height: 1.2;
+    }
+  }
+}
+
+.vp-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+    opacity: 0.3;
+  }
+
+  .empty-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--vp-text-secondary);
+    margin-bottom: 8px;
+  }
+
+  .empty-desc {
+    font-size: 0.85rem;
+    color: var(--vp-text-muted);
+    max-width: 260px;
+    line-height: 1.5;
+  }
+}
+
+.vp-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &.badge-success { background: rgba(0, 212, 170, 0.15); color: var(--vp-accent); }
+  &.badge-warning { background: rgba(255, 179, 71, 0.15); color: var(--vp-warning); }
+  &.badge-danger { background: rgba(255, 75, 110, 0.15); color: var(--vp-danger); }
+  &.badge-muted { background: rgba(139, 143, 168, 0.15); color: var(--vp-text-secondary); }
+  &.badge-primary { background: rgba(108, 99, 255, 0.15); color: var(--vp-primary-light); }
+}
+
+.vp-divider {
+  height: 1px;
+  background: var(--vp-border);
+  margin: 16px 0;
+}
+
+.vp-gradient-text {
+  background: linear-gradient(135deg, var(--vp-primary-light), var(--vp-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ======================================
+   Animations
+   ====================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease both;
+}
+
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+
+/* Form styling */
+.vp-form-group {
+  margin-bottom: 0;
+}
+
+.vp-fab {
+  --background: var(--vp-primary);
+  --background-hover: var(--vp-primary-light);
+  --box-shadow: 0 6px 20px rgba(108, 99, 255, 0.45);
+}

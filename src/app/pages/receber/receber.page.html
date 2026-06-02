@@ -1,0 +1,81 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Financeiro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Resumo Pendente -->
+  <div class="pendente-card animate-fade-in-up">
+    <div class="pendente-icon">💰</div>
+    <div class="pendente-info">
+      <span class="pendente-label">Total a Receber</span>
+      <span class="pendente-valor">R$ {{ totalPendente | number:'1.2-2' }}</span>
+    </div>
+  </div>
+
+  <!-- Filtro por status -->
+  <ion-segment
+    [(ngModel)]="filtro"
+    (ionChange)="carregar()"
+    class="vp-segment"
+    id="segmento-financeiro">
+    <ion-segment-button value="todos">
+      <ion-label>Todos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Pendente">
+      <ion-label>Pendente</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Pago">
+      <ion-label>Pago</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="carregando" class="vp-empty-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <div *ngIf="!carregando && recebimentos.length === 0" class="vp-empty-state animate-fade-in-up">
+    <div class="empty-icon">💳</div>
+    <div class="empty-title">Nenhum recebimento encontrado</div>
+    <div class="empty-desc">Os recebimentos são gerados automaticamente ao registrar uma venda.</div>
+  </div>
+
+  <div class="recebimentos-list animate-fade-in-up">
+    <div *ngFor="let rec of recebimentos"
+         class="recebimento-card"
+         [id]="'recebimento-' + rec.id">
+      <div class="rec-left">
+        <div class="rec-header">
+          <span class="rec-venda">Venda #{{ rec.venda_id }}</span>
+          <span class="vp-badge" [class]="statusClass(rec.status)">{{ rec.status }}</span>
+        </div>
+        <span class="rec-cliente">{{ rec.cliente_nome }}</span>
+        <span class="rec-data">{{ formatarData(rec.data_venda) }}</span>
+      </div>
+      <div class="rec-right">
+        <span class="rec-valor">R$ {{ rec.valor | number:'1.2-2' }}</span>
+        <ion-button
+          *ngIf="rec.status === 'Pendente'"
+          size="small"
+          fill="solid"
+          class="btn-pagar-rec"
+          [id]="'btn-pagar-' + rec.id"
+          (click)="registrarPagamento(rec)"
+          [disabled]="processandoId === rec.id">
+          <ion-spinner *ngIf="processandoId === rec.id" name="crescent" slot="icon-only"></ion-spinner>
+          <ion-icon *ngIf="processandoId !== rec.id" name="checkmark-circle-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,120 @@
+.pendente-card {
+  background: linear-gradient(135deg, rgba(139,132,255,0.15), rgba(108,99,255,0.1));
+  border: 1px solid rgba(108,99,255,0.3);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  .pendente-icon { font-size: 2.5rem; }
+
+  .pendente-info {
+    .pendente-label {
+      display: block;
+      font-size: 0.75rem;
+      color: #8B8FA8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .pendente-valor {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #F0F2FF;
+      letter-spacing: -0.03em;
+    }
+  }
+}
+
+.vp-segment {
+  --background: #151826;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  padding: 4px;
+
+  ion-segment-button {
+    --color: #8B8FA8;
+    --color-checked: #F0F2FF;
+    --background-checked: rgba(108,99,255,0.25);
+    --border-radius: 10px;
+    --indicator-color: transparent;
+    min-height: 36px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+}
+
+.recebimentos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recebimento-card {
+  background: #151826;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  .rec-left {
+    flex: 1;
+    min-width: 0;
+
+    .rec-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      flex-wrap: wrap;
+
+      .rec-venda {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #F0F2FF;
+      }
+    }
+
+    .rec-cliente {
+      display: block;
+      font-size: 0.8rem;
+      color: #8B8FA8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .rec-data {
+      display: block;
+      font-size: 0.75rem;
+      color: #555870;
+      margin-top: 2px;
+    }
+  }
+
+  .rec-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+
+    .rec-valor {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #00D4AA;
+    }
+  }
+}
+
+.btn-pagar-rec {
+  --background: rgba(0,212,170,0.15);
+  --color: #00D4AA;
+  --border-radius: 8px;
+  height: 32px;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="vp-page-content">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Busca -->
+  <ion-searchbar
+    id="busca-cliente"
+    placeholder="Buscar por nome, CPF ou e-mail..."
+    [(ngModel)]="termoBusca"
+    (ionInput)="filtrar()"
+    [debounce]="200"
+    class="vp-searchbar">
+  </ion-searchbar>
+
+  <!-- Loading -->
+  <div *ngIf="carregando" class="vp-empty-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <!-- Estado vazio -->
+  <div *ngIf="!carregando && clientesFiltrados.length === 0" class="vp-empty-state animate-fade-in-up">
+    <div class="empty-icon">👥</div>
+    <div class="empty-title">
+      {{ termoBusca ? 'Nenhum resultado' : 'Nenhum cliente cadastrado' }}
+    </div>
+    <div class="empty-desc">
+      {{ termoBusca ? 'Tente uma busca diferente.' : 'Toque no botão + para adicionar o primeiro cliente.' }}
+    </div>
+  </div>
+
+  <!-- Contador -->
+  <p class="vp-section-title" *ngIf="!carregando && clientes.length > 0">
+    {{ clientesFiltrados.length }} cliente{{ clientesFiltrados.length !== 1 ? 's' : '' }}
+  </p>
+
+  <!-- Lista -->
+  <div class="clientes-list animate-fade-in-up">
+    <div *ngFor="let cliente of clientesFiltrados; let i = index"
+         class="cliente-card"
+         [id]="'cliente-' + cliente.id">
+      <div class="cliente-avatar">{{ iniciais(cliente.nome) }}</div>
+      <div class="cliente-info">
+        <h3 class="cliente-nome">{{ cliente.nome }}</h3>
+        <div class="cliente-detalhe">
+          <ion-icon name="call-outline"></ion-icon>
+          <span>{{ cliente.telefone }}</span>
+        </div>
+        <div class="cliente-detalhe">
+          <ion-icon name="mail-outline"></ion-icon>
+          <span>{{ cliente.email }}</span>
+        </div>
+        <div class="cliente-cpf">CPF: {{ cliente.cpf }}</div>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button id="btn-novo-cliente" class="vp-fab" (click)="novoCliente()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

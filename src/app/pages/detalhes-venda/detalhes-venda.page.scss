@@ -1,0 +1,129 @@
+.venda-resumo {
+  background: linear-gradient(135deg, rgba(108,99,255,0.15), rgba(0,212,170,0.1));
+  border: 1px solid rgba(108,99,255,0.3);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+
+  .resumo-total {
+    text-align: center;
+    margin-bottom: 16px;
+
+    .rt-label {
+      display: block;
+      font-size: 0.75rem;
+      color: #8B8FA8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 4px;
+    }
+
+    .rt-valor {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #F0F2FF;
+      letter-spacing: -0.03em;
+    }
+  }
+
+  .resumo-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: #8B8FA8;
+
+    ion-icon { font-size: 0.9rem; color: #6C63FF; }
+    span { color: #F0F2FF; font-weight: 500; }
+  }
+}
+
+.financeiro-block {
+  margin-bottom: 20px;
+}
+
+.financeiro-card {
+  background: #151826;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 16px;
+
+  .fin-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+
+    &:last-child { border-bottom: none; }
+
+    .fin-label {
+      font-size: 0.82rem;
+      color: #8B8FA8;
+      font-weight: 500;
+    }
+
+    .fin-val {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #F0F2FF;
+    }
+  }
+}
+
+.btn-pagar {
+  --background: linear-gradient(135deg, #00D4AA, #00B896);
+  --color: #fff;
+  --border-radius: 12px;
+  --box-shadow: 0 6px 20px rgba(0,212,170,0.3);
+  height: 48px;
+  font-weight: 700;
+  margin-top: 16px;
+}
+
+.itens-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.item-venda-card {
+  background: #151826;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .item-info {
+    flex: 1;
+    .item-nome { display: block; font-size: 0.9rem; font-weight: 600; color: #F0F2FF; }
+    .item-cod { display: block; font-size: 0.72rem; color: #555870; font-family: 'Courier New', monospace; margin-top: 2px; }
+  }
+
+  .item-calc {
+    text-align: right;
+    .item-qty { display: block; font-size: 0.78rem; color: #8B8FA8; }
+    .item-subtotal { display: block; font-size: 0.95rem; font-weight: 800; color: #00D4AA; }
+  }
+}
+
+.acoes-block {
+  margin-top: 8px;
+}
+
+.btn-devolucao {
+  --border-radius: 12px;
+  --color: #FF7F50;
+  --border-color: rgba(255,127,80,0.4);
+  height: 48px;
+  font-weight: 700;
+}

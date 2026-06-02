@@ -1,0 +1,212 @@
+:host {
+  --background: #0D0F1A;
+}
+
+.login-content {
+  --background: linear-gradient(145deg, #0D0F1A 0%, #121520 50%, #0D0F1A 100%);
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 60% 20%, rgba(108, 99, 255, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(0, 212, 170, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.logo-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(108, 99, 255, 0.3), rgba(0, 212, 170, 0.3));
+  border: 1px solid rgba(108, 99, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 32px rgba(108, 99, 255, 0.3);
+
+  .logo-icon {
+    font-size: 2.2rem;
+  }
+}
+
+.app-name {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #8B84FF, #00D4AA);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 6px;
+  letter-spacing: -0.03em;
+}
+
+.app-tagline {
+  font-size: 0.9rem;
+  color: #8B8FA8;
+  margin: 0;
+}
+
+.login-card {
+  background: rgba(21, 24, 38, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 28px 24px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.card-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #F0F2FF;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.card-subtitle {
+  font-size: 0.85rem;
+  color: #8B8FA8;
+  margin: 0 0 28px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+.input-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #8B8FA8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(26, 29, 46, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+
+  &:focus-within {
+    border-color: rgba(108, 99, 255, 0.6);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+  }
+
+  .input-icon {
+    color: #8B8FA8;
+    font-size: 1.1rem;
+    margin-left: 14px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+
+  &:focus-within .input-icon {
+    color: #8B84FF;
+  }
+}
+
+.vp-input {
+  flex: 1;
+  --background: transparent;
+  --color: #F0F2FF;
+  --placeholder-color: #555870;
+  --padding-start: 10px;
+  --padding-end: 14px;
+  --padding-top: 14px;
+  --padding-bottom: 14px;
+  font-size: 0.95rem;
+}
+
+.erro-msg {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 75, 110, 0.1);
+  border: 1px solid rgba(255, 75, 110, 0.3);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  font-size: 0.85rem;
+  color: #FF4B6E;
+
+  .erro-icon { font-size: 1rem; }
+}
+
+.btn-entrar {
+  --background: linear-gradient(135deg, #6C63FF, #8B84FF);
+  --background-hover: linear-gradient(135deg, #7B73FF, #9B94FF);
+  --background-activated: linear-gradient(135deg, #5D54EE, #7B73FF);
+  --color: #ffffff;
+  --border-radius: 12px;
+  --box-shadow: 0 6px 20px rgba(108, 99, 255, 0.45);
+  height: 52px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-top: 8px;
+}
+
+.default-info {
+  margin-top: 20px;
+  padding: 12px;
+  background: rgba(108, 99, 255, 0.08);
+  border: 1px dashed rgba(108, 99, 255, 0.3);
+  border-radius: 10px;
+  text-align: center;
+
+  p {
+    font-size: 0.8rem;
+    color: #8B8FA8;
+    margin: 0;
+
+    strong {
+      color: #8B84FF;
+    }
+  }
+}
+
+.login-footer {
+  margin-top: 28px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+
+  p {
+    font-size: 0.75rem;
+    color: #555870;
+    margin: 0;
+  }
+}
