@@ -30,6 +30,7 @@ export class MenuPage implements OnInit {
   usuario: Usuario | null = null;
   currentDate = new Date();
   stats = { totalVendas: 0, valorVendido: 0, estoque: 0, pendentes: 0 };
+  ultimaVenda: any | null = null;
 
   menuItems = [
     { label: 'Clientes',    icon: 'people-outline',             rota: '/lista-clientes',   cor: '#6C63FF', desc: 'Gerenciar cadastros' },
@@ -72,11 +73,12 @@ export class MenuPage implements OnInit {
 
   async carregarStats() {
     try {
-      const [totalVendas, valorVendido, estoque, pendentes] = await Promise.all([
+      const [totalVendas, valorVendido, estoque, pendentes, ultimaVenda] = await Promise.all([
         this.relatoriosService.getTotalVendas(),
         this.relatoriosService.getValorVendido(),
         this.relatoriosService.getEstoqueAtual(),
-        this.relatoriosService.getRecebimentosPendentes()
+        this.relatoriosService.getRecebimentosPendentes(),
+        this.relatoriosService.getUltimaVenda()
       ]);
       this.stats = {
         totalVendas,
@@ -84,6 +86,7 @@ export class MenuPage implements OnInit {
         estoque,
         pendentes: pendentes.length
       };
+      this.ultimaVenda = ultimaVenda;
     } catch {}
   }
 

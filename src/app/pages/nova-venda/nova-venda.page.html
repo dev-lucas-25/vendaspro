@@ -27,8 +27,44 @@
     </div>
   </div>
 
-  <!-- Busca de Produto -->
+  <!-- Forma de Pagamento -->
   <div class="section-block animate-fade-in-up animate-delay-1">
+    <p class="vp-section-title">💳 Forma de Pagamento</p>
+    <div class="select-wrap">
+      <ion-select
+        id="select-forma-pagamento"
+        placeholder="Selecione a forma de pagamento..."
+        [(ngModel)]="formaPagamento"
+        interface="action-sheet"
+        cancelText="Cancelar"
+        class="vp-select">
+        <ion-select-option value="Dinheiro">Dinheiro</ion-select-option>
+        <ion-select-option value="PIX">PIX</ion-select-option>
+        <ion-select-option value="Débito">Débito</ion-select-option>
+        <ion-select-option value="Crédito">Crédito</ion-select-option>
+        <ion-select-option value="Boleto">Boleto</ion-select-option>
+      </ion-select>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Data de Vencimento</label>
+      <div class="field-input-wrap">
+        <ion-input
+          id="input-data-vencimento"
+          type="date"
+          placeholder="Selecione a data..."
+          [(ngModel)]="dataVencimento"
+          [disabled]="!requiresDueDate()"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+      <div class="field-help" *ngIf="!requiresDueDate()">
+        Data de vencimento não é necessária para pagamentos à vista.
+      </div>
+    </div>
+  </div>
+
+  <!-- Busca de Produto -->
+  <div class="section-block animate-fade-in-up animate-delay-2">
     <p class="vp-section-title">📦 Adicionar Produto</p>
     <div class="search-input-wrap">
       <ion-icon name="search-outline" class="search-icon"></ion-icon>
@@ -43,7 +79,7 @@
     </div>
 
     <!-- Resultados da busca -->
-    <div class="produtos-resultado" *ngIf="termoProduto && produtosFiltrados.length > 0">
+    <div class="produtos-resultado" *ngIf="produtosFiltrados.length > 0">
       <div *ngFor="let p of produtosFiltrados.slice(0, 5)"
            class="produto-resultado-item"
            (click)="adicionarProduto(p)">
@@ -60,7 +96,7 @@
     </div>
 
     <!-- Sem resultados -->
-    <div class="no-results" *ngIf="termoProduto && produtosFiltrados.length === 0">
+    <div class="no-results" *ngIf="produtosFiltrados.length === 0">
       Nenhum produto encontrado com estoque disponível.
     </div>
   </div>

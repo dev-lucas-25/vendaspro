@@ -53,6 +53,58 @@ export class ClienteService {
   }
 
   /**
+   * Atualiza os dados de um cliente existente.
+   */
+  async atualizar(cliente: Cliente): Promise<void> {
+    if (!cliente.id) {
+      throw new Error('ID do cliente é obrigatório para atualização.');
+    }
+
+    this.validarCliente(cliente);
+    const cpfLimpo = this.limparCpf(cliente.cpf);
+
+    const existente = this.db.query<Cliente>(
+      'SELECT id FROM clientes WHERE replace(replace(cpf, ".", ""), "-", "") = ? AND id != ?',
+      [cpfLimpo, cliente.id]
+    );
+
+    if (existente.length > 0) {
+      throw new Error('Já existe outro cliente cadastrado com este CPF.');
+    }
+
+    this.db.run(
+      'UPDATE clientes SET nome = ?, telefone = ?, email = ?, cpf = ? WHERE id = ?',
+      [
+        cliente.nome.trim(),
+        cliente.telefone.trim(),
+        cliente.email.trim().toLowerCase(),
+        cliente.cpf.trim(),
+        cliente.id,
+      ]
+    );
+  }
+
+  /**
+   * Exclui um cliente se não houver vendas vinculadas.
+   */
+  async excluir(id: number): Promise<void> {
+    if (!id) {
+      throw new Error('ID do cliente é obrigatório para exclusão.');
+    }
+
+    const vendas = this.db.query<{ count: number }>(
+      'SELECT COUNT(*) as count FROM vendas WHERE cliente_id = ?',
+      [id]
+    );
+
+    if (vendas.length > 0 && vendas[0].count > 0) {
+      throw new Error('Este cliente possui vendas vinculadas e não pode ser excluído.');
+    }
+
+    this.db.run('DELETE FROM clientes WHERE id = ?', [id]);
+  }
+
+  /**
    * Valida os campos obrigatórios do cliente.
    */
   private validarCliente(cliente: Cliente): void {

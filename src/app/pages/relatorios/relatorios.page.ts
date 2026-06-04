@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
-  IonIcon, IonSpinner, IonRefresher, IonRefresherContent
+  IonSpinner, IonRefresher, IonRefresherContent
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { statsChartOutline, trendingUpOutline, cubeOutline, walletOutline, alertCircleOutline } from 'ionicons/icons';
@@ -16,7 +16,7 @@ import { RelatoriosService } from '../../services/relatorios';
   imports: [
     CommonModule,
     IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
-    IonIcon, IonSpinner, IonRefresher, IonRefresherContent
+    IonSpinner, IonRefresher, IonRefresherContent
   ]
 })
 export class RelatoriosPage implements OnInit {

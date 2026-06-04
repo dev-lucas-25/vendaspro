@@ -83,6 +83,35 @@ export class ProdutoService {
   }
 
   /**
+   * Exclui um produto se não houver vendas ou devoluções vinculadas.
+   */
+  async excluir(id: number): Promise<void> {
+    if (!id) {
+      throw new Error('ID do produto é obrigatório para exclusão.');
+    }
+
+    const vendas = this.db.query<{ count: number }>(
+      'SELECT COUNT(*) as count FROM itens_venda WHERE produto_id = ?',
+      [id]
+    );
+
+    if (vendas.length > 0 && vendas[0].count > 0) {
+      throw new Error('Este produto possui vendas vinculadas e não pode ser excluído.');
+    }
+
+    const devolucoes = this.db.query<{ count: number }>(
+      'SELECT COUNT(*) as count FROM devolucoes WHERE produto_id = ?',
+      [id]
+    );
+
+    if (devolucoes.length > 0 && devolucoes[0].count > 0) {
+      throw new Error('Este produto possui devoluções vinculadas e não pode ser excluído.');
+    }
+
+    this.db.run('DELETE FROM produtos WHERE id = ?', [id]);
+  }
+
+  /**
    * Busca um produto por código de barras (útil na tela de Vendas).
    */
   async buscarPorCodigoBarras(codigo: string): Promise<Produto | null> {

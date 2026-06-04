@@ -35,6 +35,14 @@
           <ion-icon name="calendar-outline"></ion-icon>
           <span>{{ formatarData(venda.data_venda) }}</span>
         </div>
+        <div class="meta-item" *ngIf="venda.forma_pagamento">
+          <ion-icon name="wallet-outline"></ion-icon>
+          <span>{{ venda.forma_pagamento }}</span>
+        </div>
+        <div class="meta-item" *ngIf="venda.data_vencimento">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>Venc.: {{ formatarData(venda.data_vencimento) }}</span>
+        </div>
       </div>
     </div>
 

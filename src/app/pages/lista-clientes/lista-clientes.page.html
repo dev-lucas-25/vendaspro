@@ -62,6 +62,14 @@
         </div>
         <div class="cliente-cpf">CPF: {{ cliente.cpf }}</div>
       </div>
+      <div class="cliente-actions">
+        <ion-button fill="clear" color="primary" (click)="editarCliente(cliente.id!)" title="Editar cliente">
+          <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" color="danger" (click)="excluirCliente(cliente)" title="Excluir cliente">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
     </div>
   </div>
 

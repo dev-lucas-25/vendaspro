@@ -40,8 +40,17 @@ export class DetalhesVendaPage implements OnInit {
   }
 
   async ngOnInit() {
-    const id = this.route.snapshot.queryParamMap.get('id');
-    if (id) await this.carregar(+id);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      const vendaId = parseInt(id, 10);
+      if (!Number.isNaN(vendaId)) {
+        await this.carregar(vendaId);
+      } else {
+        this.carregando = false;
+      }
+    } else {
+      this.carregando = false;
+    }
   }
 
   async carregar(id: number) {

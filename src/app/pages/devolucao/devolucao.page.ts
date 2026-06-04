@@ -55,11 +55,16 @@ export class DevolucaoPage implements OnInit {
 
   async carregarVenda() {
     if (!this.vendaSelecionadaId) return;
+    const id = Number(this.vendaSelecionadaId);
+    if (isNaN(id)) return;
     this.carregandoVenda = true;
     this.vendaDetalhe = null;
     this.produtoSelecionadoId = null;
     try {
-      this.vendaDetalhe = await this.vendaService.buscarPorId(this.vendaSelecionadaId);
+      this.vendaDetalhe = await this.vendaService.buscarPorId(id);
+      if (this.vendaDetalhe && !Array.isArray(this.vendaDetalhe.itens)) {
+        this.vendaDetalhe.itens = [];
+      }
     } finally {
       this.carregandoVenda = false;
     }
@@ -76,6 +81,8 @@ export class DevolucaoPage implements OnInit {
       this.produtoSelecionadoId = null;
       this.quantidade = 1;
       await this.carregarVenda();
+      // Recarregar lista de vendas para refletir alterações no select
+      this.vendas = await this.vendaService.listarVendas();
     } catch (e: any) {
       this.erro = e.message || 'Erro ao registrar devolução.';
     } finally {

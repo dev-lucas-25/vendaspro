@@ -50,7 +50,7 @@ export class ListaVendasPage implements OnInit {
   }
 
   verDetalhes(venda: Venda) {
-    this.router.navigate(['/detalhes-venda'], { queryParams: { id: venda.id } });
+    this.router.navigate(['/detalhes-venda', venda.id]);
   }
 
   novaVenda() {

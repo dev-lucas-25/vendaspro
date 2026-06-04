@@ -65,14 +65,23 @@
             [(ngModel)]="produtoSelecionadoId"
             interface="action-sheet"
             cancelText="Cancelar"
-            class="vp-select">
+            class="vp-select"
+            [disabled]="!vendaDetalhe || !(vendaDetalhe.itens && vendaDetalhe.itens.length > 0)">
             <ion-select-option *ngFor="let item of vendaDetalhe.itens" [value]="item.produto_id">
               {{ item.produto?.nome }} ({{ item.quantidade }} un.)
             </ion-select-option>
           </ion-select>
         </div>
+        <div class="no-items" *ngIf="vendaDetalhe && vendaDetalhe.itens && vendaDetalhe.itens.length === 0">
+          Esta venda não possui itens disponíveis para devolução.
+        </div>
       </div>
 
+
+    <!-- Caso a venda não seja encontrada após seleção -->
+    <div *ngIf="!vendaDetalhe && !carregandoVenda" class="no-venda-selected">
+      Selecione uma venda para ver os itens disponíveis para devolução.
+    </div>
       <!-- Quantidade -->
       <div class="field-group">
         <label class="field-label">Quantidade</label>

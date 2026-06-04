@@ -1,13 +1,112 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>lista-usuarios</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Usuários</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">lista-usuarios</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="vp-page-content">
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Busca -->
+  <ion-searchbar
+    id="busca-usuario"
+    placeholder="Buscar por nome ou login..."
+    [(ngModel)]="termoBusca"
+    (ionInput)="filtrar()"
+    [debounce]="200"
+    class="vp-searchbar">
+  </ion-searchbar>
+
+  <!-- Loading -->
+  <div *ngIf="carregando" class="vp-empty-state">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <!-- Estado vazio -->
+  <div *ngIf="!carregando && usuariosFiltrados.length === 0" class="vp-empty-state animate-fade-in-up">
+    <div class="empty-icon">👥</div>
+    <div class="empty-title">
+      {{ termoBusca ? 'Nenhum resultado' : 'Nenhum usuário cadastrado' }}
+    </div>
+    <div class="empty-desc">
+      {{ termoBusca ? 'Tente uma busca diferente.' : 'Toque no botão + para adicionar o primeiro operador.' }}
+    </div>
+  </div>
+
+  <!-- Contador -->
+  <p class="vp-section-title" *ngIf="!carregando && usuarios.length > 0">
+    {{ usuariosFiltrados.length }} usuário{{ usuariosFiltrados.length !== 1 ? 's' : '' }}
+  </p>
+
+  <!-- Lista de Usuários -->
+  <div class="usuarios-list animate-fade-in-up" *ngIf="!carregando && usuariosFiltrados.length > 0">
+    <div *ngFor="let u of usuariosFiltrados; let i = index"
+         class="usuario-card"
+         [id]="'usuario-' + u.id"
+         [class.inativo-card]="u.situacao === 'Inativo'">
+      <div class="card-body">
+        <div class="usuario-avatar">{{ iniciais(u.nome) }}</div>
+        <div class="usuario-info">
+          <div class="name-status-row">
+            <h3 class="usuario-nome">{{ u.nome }}</h3>
+            <span class="status-badge" [class.status-ativo]="u.situacao === 'Ativo'" [class.status-inativo]="u.situacao === 'Inativo'">
+              {{ u.situacao }}
+            </span>
+          </div>
+          <div class="usuario-detalhe">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>Login: <strong>{{ u.login }}</strong></span>
+          </div>
+          <div class="logged-indicator" *ngIf="loggedUser && loggedUser.id === u.id">
+            <span>⚡ Operador Atual (Você)</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card-actions">
+        <!-- Editar -->
+        <ion-button
+          [id]="'btn-editar-usuario-' + u.id"
+          fill="clear"
+          color="primary"
+          (click)="editarUsuario(u.id!)"
+          title="Editar">
+          <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <!-- Ativar/Inativar -->
+        <ion-button
+          [id]="'btn-toggle-usuario-' + u.id"
+          fill="clear"
+          [color]="u.situacao === 'Ativo' ? 'warning' : 'success'"
+          (click)="alternarSituacao(u)"
+          [disabled]="loggedUser && loggedUser.id === u.id"
+          title="Alterar Situação">
+          <ion-icon name="power-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <!-- Excluir -->
+        <ion-button
+          [id]="'btn-excluir-usuario-' + u.id"
+          fill="clear"
+          color="danger"
+          (click)="excluirUsuario(u)"
+          [disabled]="loggedUser && loggedUser.id === u.id"
+          title="Excluir Definitivo">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button id="btn-novo-usuario" class="vp-fab" (click)="novoUsuario()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>

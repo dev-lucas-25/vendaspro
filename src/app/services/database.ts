@@ -8,6 +8,7 @@ export class DatabaseService {
   private db: SqlDatabase | null = null;
   private SQL: SqlJsStatic | null = null;
   private isInitialized = false;
+  private isInTransaction = false;
 
   constructor() {}
 
@@ -21,7 +22,10 @@ export class DatabaseService {
     try {
       console.log('DatabaseService: Inicializando sql.js...');
       this.SQL = await initSqlJs({
-        locateFile: (filename: string) => `assets/${filename}`,
+        locateFile: (filename: string) => {
+          const isKarma = typeof window !== 'undefined' && (window as any).__karma__;
+          return isKarma ? `/base/node_modules/sql.js/dist/${filename}` : `/assets/${filename}`;
+        },
       });
 
       const savedDb = localStorage.getItem('vendapro_db');
@@ -35,6 +39,8 @@ export class DatabaseService {
         this.createTables();
         this.insertSeeds();
       }
+
+      this.runMigrations();
 
       this.isInitialized = true;
       console.log('DatabaseService: Banco de dados inicializado com sucesso.');
@@ -69,7 +75,7 @@ export class DatabaseService {
 
   /**
    * Executa uma instrução SQL de alteração de dados (INSERT, UPDATE, DELETE, DDL).
-   * Persiste as alterações no LocalStorage automaticamente.
+   * Persiste as alterações no LocalStorage automaticamente (exceto durante transações).
    */
   run(sql: string, params: any[] = []): void {
     if (!this.db) {
@@ -80,7 +86,10 @@ export class DatabaseService {
       const stmt = this.db.prepare(sql);
       stmt.run(params);
       stmt.free();
-      this.persist();
+      // Apenas persiste fora de transações para evitar conflitos com COMMIT/ROLLBACK
+      if (!this.isInTransaction) {
+        this.persist();
+      }
     } catch (error) {
       console.error(`DatabaseService: Erro ao executar run [${sql}]:`, error);
       throw error;
@@ -98,20 +107,29 @@ export class DatabaseService {
   /**
    * Executa operações dentro de uma transação SQLite.
    * Faz Rollback em caso de erro, ou Commit caso tenha sucesso.
+   * Define flag isInTransaction para evitar persist() durante operações dentro da transação.
    */
   async transaction<T>(callback: () => Promise<T>): Promise<T> {
-    this.run('BEGIN TRANSACTION;');
+    if (!this.db) {
+      throw new Error('Banco de dados não inicializado. Chame initialize() primeiro.');
+    }
+
     try {
+      this.isInTransaction = true;
+      this.db.exec('BEGIN TRANSACTION;');
       const result = await callback();
-      this.run('COMMIT;');
+      this.db.exec('COMMIT;');
+      this.isInTransaction = false;
+      this.persist();
       return result;
     } catch (error) {
       console.warn('DatabaseService: Ocorreu um erro. Executando ROLLBACK na transação.', error);
       try {
-        this.run('ROLLBACK;');
+        this.db.exec('ROLLBACK;');
       } catch (rollbackError) {
         console.error('DatabaseService: Erro ao executar ROLLBACK:', rollbackError);
       }
+      this.isInTransaction = false;
       throw error;
     }
   }
@@ -142,7 +160,8 @@ export class DatabaseService {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
         login TEXT NOT NULL UNIQUE,
-        senha TEXT NOT NULL
+        senha TEXT NOT NULL,
+        situacao TEXT NOT NULL DEFAULT 'Ativo'
       );
     `);
 
@@ -174,10 +193,14 @@ export class DatabaseService {
       CREATE TABLE IF NOT EXISTS vendas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         cliente_id INTEGER NOT NULL,
+        usuario_id INTEGER,
         data_venda TEXT NOT NULL,
         subtotal REAL NOT NULL,
         total REAL NOT NULL,
-        FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+        forma_pagamento TEXT,
+        data_vencimento TEXT,
+        FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+        FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
       );
     `);
 
@@ -219,6 +242,45 @@ export class DatabaseService {
         FOREIGN KEY (venda_id) REFERENCES vendas(id)
       );
     `);
+  }
+
+  /**
+   * Executa migrações incrementais no banco de dados SQLite para atualizar a estrutura de tabelas existentes.
+   */
+  private runMigrations(): void {
+    console.log('DatabaseService: Verificando e executando migrações...');
+    
+    // Adicionar coluna 'situacao' na tabela 'usuarios'
+    try {
+      this.run("ALTER TABLE usuarios ADD COLUMN situacao TEXT NOT NULL DEFAULT 'Ativo';");
+      console.log('DatabaseService: Migração - Coluna "situacao" adicionada à tabela "usuarios".');
+    } catch (e) {
+      // Ignora erro se a coluna já existir
+    }
+
+    // Adicionar coluna 'usuario_id' na tabela 'vendas'
+    try {
+      this.run("ALTER TABLE vendas ADD COLUMN usuario_id INTEGER;");
+      console.log('DatabaseService: Migração - Coluna "usuario_id" adicionada à tabela "vendas".');
+    } catch (e) {
+      // Ignora erro se a coluna já existir
+    }
+
+    // Adicionar coluna 'forma_pagamento' na tabela 'vendas'
+    try {
+      this.run("ALTER TABLE vendas ADD COLUMN forma_pagamento TEXT;");
+      console.log('DatabaseService: Migração - Coluna "forma_pagamento" adicionada à tabela "vendas".');
+    } catch (e) {
+      // Ignora erro se a coluna já existir
+    }
+
+    // Adicionar coluna 'data_vencimento' na tabela 'vendas'
+    try {
+      this.run("ALTER TABLE vendas ADD COLUMN data_vencimento TEXT;");
+      console.log('DatabaseService: Migração - Coluna "data_vencimento" adicionada à tabela "vendas".');
+    } catch (e) {
+      // Ignora erro se a coluna já existir
+    }
   }
 
   /**

@@ -3,15 +3,15 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lista-produtos" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Novo Produto</ion-title>
+    <ion-title>{{ modoEdicao ? 'Editar Produto' : 'Novo Produto' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="vp-page-content">
   <div class="form-header animate-fade-in-up">
     <div class="form-icon">📦</div>
-    <h2>Cadastro de Produto</h2>
-    <p>Adicione um novo produto ao catálogo</p>
+    <h2>{{ modoEdicao ? 'Edição de Produto' : 'Cadastro de Produto' }}</h2>
+    <p>{{ modoEdicao ? 'Altere os dados deste produto' : 'Adicione um novo produto ao catálogo' }}</p>
   </div>
 
   <div class="vp-form animate-fade-in-up animate-delay-1">
@@ -112,7 +112,7 @@
       [disabled]="salvando">
       <ion-spinner *ngIf="salvando" name="crescent" slot="start"></ion-spinner>
       <ion-icon *ngIf="!salvando" name="save-outline" slot="start"></ion-icon>
-      {{ salvando ? 'Salvando...' : 'Cadastrar Produto' }}
+      {{ salvando ? 'Salvando...' : (modoEdicao ? 'Salvar Alterações' : 'Cadastrar Produto') }}
     </ion-button>
   </div>
 </ion-content>

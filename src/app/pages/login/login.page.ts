@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-  IonContent, IonButton, IonInput, IonItem, IonLabel,
+  IonContent, IonButton, IonInput,
   IonSpinner, IonIcon, IonInputPasswordToggle
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -17,7 +17,7 @@ import { UsuarioService } from '../../services/usuario';
   standalone: true,
   imports: [
     CommonModule, FormsModule,
-    IonContent, IonButton, IonInput, IonItem, IonLabel,
+    IonContent, IonButton, IonInput,
     IonSpinner, IonIcon, IonInputPasswordToggle
   ]
 })
@@ -36,17 +36,21 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
- /* async entrar() {
+  async entrar() {
+    this.erro = '';
+
     if (!this.loginValue.trim() || !this.senha.trim()) {
-      this.erro = 'Por favor, preencha o login e a senha.';
+      this.erro = 'Por favor, preencha usuário e senha.';
       return;
     }
 
     this.loading = true;
-    this.erro = '';
-
     try {
-      const usuario = await this.usuarioService.login(this.loginValue.trim(), this.senha);
+      const usuario = await this.usuarioService.login(
+        this.loginValue.trim(),
+        this.senha.trim()
+      );
+
       if (usuario) {
         this.router.navigateByUrl('/menu', { replaceUrl: true });
       } else {
@@ -58,27 +62,4 @@ export class LoginPage implements OnInit {
       this.loading = false;
     }
   }
-}
-*/
-async entrar() {
-  console.log('Entrar clicado');
-
-  try {
-    const usuario = await this.usuarioService.login(
-      this.loginValue.trim(),
-      this.senha
-    );
-
-    console.log('Resultado login:', usuario);
-
-    if (usuario) {
-      this.router.navigateByUrl('/menu', { replaceUrl: true });
-    } else {
-      this.erro = 'Login ou senha inválidos';
-    }
-
-  } catch (e) {
-    console.error('Erro login:', e);
-  }
-}
 }

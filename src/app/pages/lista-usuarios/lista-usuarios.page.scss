@@ -1,0 +1,152 @@
+.vp-searchbar {
+  --background: #151826;
+  --border-radius: 12px;
+  --box-shadow: none;
+  --color: #F0F2FF;
+  --placeholder-color: #555870;
+  --icon-color: #8B8FA8;
+  --clear-button-color: #8B8FA8;
+  padding: 0 0 12px;
+}
+
+.usuarios-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.usuario-card {
+  background: #151826;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+
+  &.inativo-card {
+    border-color: rgba(255, 75, 110, 0.15);
+    background: rgba(21, 24, 38, 0.7);
+    
+    .usuario-avatar {
+      background: linear-gradient(135deg, rgba(255, 75, 110, 0.1), rgba(255, 75, 110, 0.2));
+      border-color: rgba(255, 75, 110, 0.2);
+      color: #FF4B6E;
+    }
+
+    .usuario-info h3 {
+      color: #8B8FA8;
+    }
+  }
+}
+
+.card-body {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.usuario-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(108, 99, 255, 0.25), rgba(32, 178, 170, 0.25));
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #8B84FF;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+
+.usuario-info {
+  flex: 1;
+  min-width: 0;
+
+  .name-status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .usuario-nome {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #F0F2FF;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .status-badge {
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &.status-ativo {
+      background: rgba(0, 212, 170, 0.12);
+      color: #00D4AA;
+      border: 1px solid rgba(0, 212, 170, 0.2);
+    }
+
+    &.status-inativo {
+      background: rgba(255, 75, 110, 0.12);
+      color: #FF4B6E;
+      border: 1px solid rgba(255, 75, 110, 0.2);
+    }
+  }
+
+  .usuario-detalhe {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: #8B8FA8;
+
+    ion-icon {
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    strong {
+      color: #F0F2FF;
+    }
+  }
+
+  .logged-indicator {
+    margin-top: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #00D4AA;
+  }
+}
+
+.card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 10px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+
+  ion-button {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    height: 36px;
+    margin: 0;
+    font-size: 0.85rem;
+
+    ion-icon {
+      font-size: 1.1rem;
+    }
+  }
+}

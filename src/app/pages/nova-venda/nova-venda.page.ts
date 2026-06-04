@@ -43,6 +43,8 @@ export class NovaVendaPage implements OnInit {
   carrinho: ItemCarrinho[] = [];
   termoProduto = '';
   produtosFiltrados: Produto[] = [];
+  formaPagamento = 'Dinheiro';
+  dataVencimento: string | null = null;
   finalizando = false;
   erro = '';
 
@@ -130,6 +132,19 @@ export class NovaVendaPage implements OnInit {
   async finalizar() {
     if (!this.podeFinalizarVenda) return;
     this.erro = '';
+
+    if (!this.formaPagamento) {
+      this.erro = 'Selecione a forma de pagamento.';
+      return;
+    }
+
+    const metodo = this.formaPagamento.toLowerCase();
+    const requiresDueDate = metodo === 'boleto' || metodo === 'crédito' || metodo === 'credito';
+    if (requiresDueDate && !this.dataVencimento) {
+      this.erro = 'Informe a data de vencimento para pagamentos a prazo.';
+      return;
+    }
+
     this.finalizando = true;
 
     try {
@@ -141,7 +156,14 @@ export class NovaVendaPage implements OnInit {
       }));
 
       const vendaId = await this.vendaService.registrarVenda(
-        { cliente_id: this.clienteSelecionadoId!, data_venda: new Date().toISOString(), subtotal: this.total, total: this.total },
+        {
+          cliente_id: this.clienteSelecionadoId!,
+          data_venda: new Date().toISOString(),
+          subtotal: this.total,
+          total: this.total,
+          forma_pagamento: this.formaPagamento,
+          data_vencimento: this.dataVencimento
+        },
         itens
       );
 
@@ -163,5 +185,10 @@ export class NovaVendaPage implements OnInit {
   nomeCliente(id: number | null): string {
     if (!id) return '';
     return this.clientes.find(c => c.id === id)?.nome || '';
+  }
+
+  requiresDueDate(): boolean {
+    const metodo = this.formaPagamento?.toLowerCase() || '';
+    return metodo === 'boleto' || metodo === 'crédito' || metodo === 'credito';
   }
 }

@@ -56,6 +56,19 @@
     </div>
   </div>
 
+  <div class="last-sale-card animate-fade-in-up animate-delay-2">
+    <p class="vp-section-title">Última Venda</p>
+    <div *ngIf="ultimaVenda; else semUltimaVenda" class="last-sale-info">
+      <div class="last-sale-row"><strong>Venda #{{ ultimaVenda.id }}</strong></div>
+      <div class="last-sale-row">Cliente: {{ ultimaVenda.cliente_nome }}</div>
+      <div class="last-sale-row">Total: R$ {{ ultimaVenda.total | number:'1.2-2' }}</div>
+      <div class="last-sale-row">Data: {{ ultimaVenda.data_venda | date:'dd/MM/yyyy HH:mm' }}</div>
+    </div>
+    <ng-template #semUltimaVenda>
+      <div class="empty-note">Nenhuma venda registrada ainda.</div>
+    </ng-template>
+  </div>
+
   <!-- Quick Action -->
   <div class="quick-action animate-fade-in-up animate-delay-2">
     <button class="btn-nova-venda" id="btn-nova-venda-quick" (click)="navegar('/nova-venda')">

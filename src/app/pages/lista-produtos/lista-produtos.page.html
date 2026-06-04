@@ -60,6 +60,14 @@
         <div class="estoque-badge" [class]="estoqueClass(produto.estoque)">
           {{ estoqueLabel(produto.estoque) }}
         </div>
+        <div class="produto-actions">
+          <ion-button fill="clear" color="primary" (click)="editarProduto(produto.id!)" title="Editar produto">
+            <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="danger" (click)="excluirProduto(produto)" title="Excluir produto">
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
       </div>
     </div>
   </div>

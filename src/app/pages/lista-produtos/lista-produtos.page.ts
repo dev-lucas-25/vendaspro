@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
-  IonFab, IonFabButton, IonIcon, IonSearchbar, IonSpinner,
-  IonRefresher, IonRefresherContent, IonBadge
+  IonFab, IonFabButton, IonButton, IonIcon, IonSearchbar, IonSpinner,
+  IonRefresher, IonRefresherContent, IonBadge, AlertController, ToastController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { addOutline, cubeOutline, pricetagOutline, alertCircleOutline } from 'ionicons/icons';
@@ -20,8 +20,8 @@ import { Produto } from '../../models/produto.model';
   imports: [
     CommonModule, FormsModule,
     IonContent, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton,
-    IonFab, IonFabButton, IonIcon, IonSearchbar, IonSpinner,
-    IonRefresher, IonRefresherContent, IonBadge
+    IonFab, IonFabButton, IonButton, IonIcon, IonSearchbar, IonSpinner,
+    IonRefresher, IonRefresherContent
   ]
 })
 export class ListaProdutosPage implements OnInit {
@@ -32,7 +32,9 @@ export class ListaProdutosPage implements OnInit {
 
   constructor(
     private produtoService: ProdutoService,
-    private router: Router
+    private router: Router,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController
   ) {
     addIcons({ addOutline, cubeOutline, pricetagOutline, alertCircleOutline });
   }
@@ -70,6 +72,51 @@ export class ListaProdutosPage implements OnInit {
 
   novoProduto() {
     this.router.navigateByUrl('/cadastro-produto');
+  }
+
+  editarProduto(id: number) {
+    this.router.navigate(['/cadastro-produto'], { queryParams: { id } });
+  }
+
+  async excluirProduto(produto: Produto) {
+    if (!produto.id) {
+      return;
+    }
+
+    const alert = await this.alertCtrl.create({
+      header: 'Excluir Produto',
+      message: `Tem certeza que deseja excluir o produto "${produto.nome}"? Esta ação não pode ser desfeita.`,
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Excluir',
+          role: 'destructive',
+          handler: async () => {
+            try {
+              await this.produtoService.excluir(produto.id!);
+              const toast = await this.toastCtrl.create({
+                message: '✅ Produto excluído com sucesso!',
+                duration: 2500,
+                position: 'bottom',
+                color: 'success'
+              });
+              await toast.present();
+              await this.carregar();
+            } catch (e: any) {
+              const toast = await this.toastCtrl.create({
+                message: e.message || 'Erro ao excluir produto.',
+                duration: 3000,
+                position: 'bottom',
+                color: 'danger'
+              });
+              await toast.present();
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   estoqueClass(estoque: number): string {

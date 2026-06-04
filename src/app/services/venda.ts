@@ -4,12 +4,13 @@ import { Venda } from '../models/venda.model';
 import { ItemVenda } from '../models/item-venda.model';
 import { Cliente } from '../models/cliente.model';
 import { Produto } from '../models/produto.model';
+import { UsuarioService } from './usuario';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VendaService {
-  constructor(private db: DatabaseService) {}
+  constructor(private db: DatabaseService, private usuarioService: UsuarioService) {}
 
   /**
    * Registra uma nova venda, valida o estoque de cada produto,
@@ -74,10 +75,13 @@ export class VendaService {
 
     // 3. Execução da transação no SQLite
     return this.db.transaction(async () => {
-      // a) Criar venda
+      const loggedUser = this.usuarioService.getLoggedUser();
+      const usuarioId = loggedUser ? loggedUser.id : null;
+
+      // a) Criar venda (inclui forma de pagamento e data de vencimento)
       this.db.run(
-        'INSERT INTO vendas (cliente_id, data_venda, subtotal, total) VALUES (?, ?, ?, ?)',
-        [venda.cliente_id, venda.data_venda, venda.subtotal, venda.total]
+        'INSERT INTO vendas (cliente_id, usuario_id, data_venda, subtotal, total, forma_pagamento, data_vencimento) VALUES (?, ?, ?, ?, ?, ?, ?)',
+        [venda.cliente_id, usuarioId, venda.data_venda, venda.subtotal, venda.total, venda.forma_pagamento ?? null, venda.data_vencimento ?? null]
       );
       const vendaId = this.db.getLastInsertId();
 
@@ -95,10 +99,16 @@ export class VendaService {
         );
       }
 
-      // c) Gerar recebimento financeiro automático
+      // c) Gerar recebimento financeiro automático com regras por forma de pagamento
+      const metodo = (venda.forma_pagamento || '').toString().toLowerCase();
+      const immediateMethods = ['dinheiro', 'pix', 'debito', 'débito'];
+      const isImmediate = immediateMethods.includes(metodo);
+      const status = isImmediate ? 'Pago' : 'Pendente';
+      const dataPagamento = isImmediate ? new Date().toISOString() : null;
+
       this.db.run(
         'INSERT INTO recebimentos (venda_id, valor, status, data_pagamento) VALUES (?, ?, ?, ?)',
-        [vendaId, venda.total, 'Pendente', null]
+        [vendaId, venda.total, status, dataPagamento]
       );
 
       return vendaId;

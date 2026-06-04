@@ -3,15 +3,15 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/lista-clientes" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>Novo Cliente</ion-title>
+    <ion-title>{{ modoEdicao ? 'Editar Cliente' : 'Novo Cliente' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="vp-page-content">
   <div class="form-header animate-fade-in-up">
     <div class="form-icon">👥</div>
-    <h2>Cadastro de Cliente</h2>
-    <p>Preencha os dados do novo cliente</p>
+    <h2>{{ modoEdicao ? 'Edição de Cliente' : 'Cadastro de Cliente' }}</h2>
+    <p>{{ modoEdicao ? 'Altere os dados do cliente abaixo' : 'Preencha os dados do novo cliente' }}</p>
   </div>
 
   <div class="vp-form animate-fade-in-up animate-delay-1">

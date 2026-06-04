@@ -1,2 +1,132 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+// ======================================
+// VendaPro Modern Design System
+// Paleta de Cores Clara e Profissional
+// ======================================
+
+:root {
+  /* ===== Paleta Principal ===== */
+  --vp-primary: #2563EB;           // Azul principal
+  --vp-primary-light: #60A5FA;     // Azul claro
+  --vp-primary-lighter: #DBEAFE;  // Azul muito claro
+  --vp-primary-dark: #1E40AF;      // Azul escuro
+
+  /* ===== Paleta de Status ===== */
+  --vp-success: #22C55E;           // Verde
+  --vp-success-light: #86EFAC;     // Verde claro
+  --vp-success-bg: #DCFCE7;        // Fundo sucesso
+
+  --vp-warning: #F59E0B;           // Laranja
+  --vp-warning-light: #FBBF24;     // Laranja claro
+  --vp-warning-bg: #FEF3C7;        // Fundo atenção
+
+  --vp-danger: #EF4444;            // Vermelho
+  --vp-danger-light: #FCA5A5;      // Vermelho claro
+  --vp-danger-bg: #FEE2E2;         // Fundo erro
+
+  --vp-info: #0EA5E9;              // Ciano
+  --vp-info-light: #38BDF8;        // Ciano claro
+  --vp-info-bg: #CFFAFE;           // Fundo info
+
+  /* ===== Paleta Neutra ===== */
+  --vp-bg-primary: #F8FAFC;        // Fundo principal
+  --vp-bg-secondary: #F1F5F9;      // Fundo secundário
+  --vp-bg-tertiary: #E2E8F0;       // Fundo terciário
+
+  --vp-card-bg: #FFFFFF;           // Cards
+  --vp-card-border: #E2E8F0;       // Borda de cards
+  --vp-card-shadow: rgba(0, 0, 0, 0.04);
+
+  --vp-text-primary: #1E293B;      // Texto principal
+  --vp-text-secondary: #64748B;    // Texto secundário
+  --vp-text-tertiary: #94A3B8;     // Texto terciário (muted)
+
+  --vp-border-color: #E2E8F0;      // Borda padrão
+  --vp-border-light: #F1F5F9;      // Borda clara
+  --vp-divider-color: #F1F5F9;     // Divisor
+
+  --vp-input-bg: #FFFFFF;          // Fundo input
+  --vp-input-border: #E2E8F0;      // Borda input
+  --vp-input-focus: #2563EB;       // Focus input
+
+  /* ===== Border Radius ===== */
+  --vp-radius-sm: 6px;
+  --vp-radius-md: 8px;
+  --vp-radius-lg: 12px;
+  --vp-radius-xl: 16px;
+  --vp-radius-2xl: 20px;
+
+  /* ===== Shadows (Suaves) ===== */
+  --vp-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --vp-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --vp-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --vp-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08);
+  --vp-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+  --vp-shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.1);
+
+  /* ===== Transições ===== */
+  --vp-transition-fast: 150ms ease;
+  --vp-transition-base: 200ms ease;
+  --vp-transition-slow: 300ms ease;
+
+  /* ===== Spacing ===== */
+  --vp-space-xs: 4px;
+  --vp-space-sm: 8px;
+  --vp-space-md: 12px;
+  --vp-space-lg: 16px;
+  --vp-space-xl: 24px;
+  --vp-space-2xl: 32px;
+
+  /* ===== Sobrescrita das cores Ionic ===== */
+  --ion-background-color: var(--vp-bg-primary);
+  --ion-background-color-rgb: 248, 250, 252;
+  --ion-text-color: var(--vp-text-primary);
+  --ion-text-color-rgb: 30, 41, 59;
+
+  --ion-toolbar-background: var(--vp-card-bg);
+  --ion-toolbar-text-color: var(--vp-text-primary);
+  --ion-toolbar-border-color: var(--vp-card-border);
+
+  --ion-item-background: var(--vp-card-bg);
+  --ion-item-text-color: var(--vp-text-primary);
+  --ion-item-border-color: var(--vp-card-border);
+
+  --ion-card-background: var(--vp-card-bg);
+  --ion-card-box-shadow: var(--vp-shadow-sm);
+
+  --ion-color-primary: var(--vp-primary);
+  --ion-color-primary-rgb: 37, 99, 235;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #1E40AF;
+  --ion-color-primary-tint: #3B82F6;
+
+  --ion-color-secondary: var(--vp-primary-light);
+  --ion-color-secondary-rgb: 96, 165, 250;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-shade: #2563EB;
+  --ion-color-secondary-tint: #93C5FD;
+
+  --ion-color-success: var(--vp-success);
+  --ion-color-success-rgb: 34, 197, 94;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-shade: #15803D;
+  --ion-color-success-tint: #4ADE80;
+
+  --ion-color-warning: var(--vp-warning);
+  --ion-color-warning-rgb: 245, 158, 11;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-shade: #D97706;
+  --ion-color-warning-tint: #FBBF24;
+
+  --ion-color-danger: var(--vp-danger);
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-shade: #DC2626;
+  --ion-color-danger-tint: #F87171;
+
+  --ion-color-dark: #1e1e1e;
+  --ion-color-medium: #989898;
+  --ion-color-light: #f4f5f8;
+
+  --ion-border-color: var(--vp-card-border);
+  --ion-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}

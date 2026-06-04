@@ -1,13 +1,120 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>cadastro-usuario</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/lista-usuarios" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ modoEdicao ? 'Editar Usuário' : 'Novo Usuário' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">cadastro-usuario</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="vp-page-content">
+  <div class="form-header animate-fade-in-up">
+    <div class="form-icon">👤</div>
+    <h2>{{ modoEdicao ? 'Edição de Usuário' : 'Cadastro de Usuário' }}</h2>
+    <p>{{ modoEdicao ? 'Altere os dados do usuário abaixo' : 'Cadastre um novo operador no sistema' }}</p>
+  </div>
+
+  <div class="vp-form animate-fade-in-up animate-delay-1">
+    <!-- Nome -->
+    <div class="field-group">
+      <label class="field-label">Nome Completo *</label>
+      <div class="field-input-wrap">
+        <ion-icon name="person-outline" class="field-icon"></ion-icon>
+        <ion-input
+          id="campo-nome-usuario"
+          type="text"
+          placeholder="Ex: Carlos Eduardo"
+          [(ngModel)]="usuario.nome"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div class="field-group">
+      <label class="field-label">Usuário/Login *</label>
+      <div class="field-input-wrap">
+        <ion-icon name="person-outline" class="field-icon"></ion-icon>
+        <ion-input
+          id="campo-login-usuario"
+          type="text"
+          placeholder="Ex: carlos.edu"
+          [(ngModel)]="usuario.login"
+          [disabled]="modoEdicao && usuario.login === 'admin'"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Situação (Apenas em Edição) -->
+    <div class="field-group" *ngIf="modoEdicao">
+      <label class="field-label">Situação *</label>
+      <div class="field-input-wrap select-wrap">
+        <ion-icon name="person-outline" class="field-icon"></ion-icon>
+        <ion-select
+          id="campo-situacao-usuario"
+          [(ngModel)]="usuario.situacao"
+          [disabled]="isCurrentUser"
+          interface="popover"
+          class="vp-field-input select-field">
+          <ion-select-option value="Ativo">Ativo</ion-select-option>
+          <ion-select-option value="Inativo">Inativo</ion-select-option>
+        </ion-select>
+      </div>
+      <small class="helper-text" *ngIf="isCurrentUser">
+        ⚠️ Você não pode inativar seu próprio usuário logado.
+      </small>
+    </div>
+
+    <!-- Senha -->
+    <div class="field-group">
+      <label class="field-label">
+        Senha <span *ngIf="!modoEdicao">*</span>
+      </label>
+      <div class="field-input-wrap">
+        <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+        <ion-input
+          id="campo-senha-usuario"
+          type="password"
+          [placeholder]="modoEdicao ? 'Deixe em branco para não alterar' : 'Senha de acesso'"
+          [(ngModel)]="usuario.senha"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Confirmar Senha -->
+    <div class="field-group">
+      <label class="field-label">
+        Confirmar Senha <span *ngIf="!modoEdicao">*</span>
+      </label>
+      <div class="field-input-wrap">
+        <ion-icon name="lock-closed-outline" class="field-icon"></ion-icon>
+        <ion-input
+          id="campo-confirmar-senha"
+          type="password"
+          [placeholder]="modoEdicao ? 'Deixe em branco para não alterar' : 'Repita a senha'"
+          [(ngModel)]="confirmarSenha"
+          class="vp-field-input">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Mensagem de erro -->
+    <div class="erro-msg animate-fade-in-up" *ngIf="erro">
+      <span>⚠️ {{ erro }}</span>
+    </div>
+
+    <!-- Botão de Salvar -->
+    <ion-button
+      id="btn-salvar-usuario"
+      expand="block"
+      class="btn-salvar"
+      (click)="salvar()"
+      [disabled]="salvando">
+      <ion-spinner *ngIf="salvando" name="crescent" slot="start"></ion-spinner>
+      <ion-icon *ngIf="!salvando" name="save-outline" slot="start"></ion-icon>
+      {{ salvando ? 'Salvando...' : (modoEdicao ? 'Salvar Alterações' : 'Cadastrar Usuário') }}
+    </ion-button>
+  </div>
 </ion-content>

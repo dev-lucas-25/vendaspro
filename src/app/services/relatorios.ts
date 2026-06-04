@@ -71,6 +71,26 @@ export class RelatoriosService {
   }
 
   /**
+   * Busca os dados da última venda registrada.
+   */
+  async getUltimaVenda(): Promise<any | null> {
+    const results = this.db.query<any>(
+      `
+      SELECT
+        v.id,
+        v.data_venda,
+        v.total,
+        c.nome as cliente_nome
+      FROM vendas v
+      JOIN clientes c ON v.cliente_id = c.id
+      ORDER BY v.data_venda DESC
+      LIMIT 1
+      `
+    );
+    return results.length > 0 ? results[0] : null;
+  }
+
+  /**
    * Retorna a lista de todos os recebimentos que já foram pagos.
    */
   async getRecebimentosPagos(): Promise<Recebimento[]> {
