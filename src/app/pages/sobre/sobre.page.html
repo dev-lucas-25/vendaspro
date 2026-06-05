@@ -1,28 +1,68 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Sobre VendaPro</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Sobre</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="vp-page-content" [fullscreen]="true">
-  <div class="vp-card" style="margin: 20px;">
-    <h2>VendaPro</h2>
-    <p>VendaPro é um aplicativo de ponto de venda (PDV) para demonstração acadêmica, focado em gerenciamento de clientes, produtos, vendas, devoluções e recebimentos.</p>
+<ion-content class="vp-page-content sobre-page">
 
-    <p><strong>Tecnologias utilizadas</strong></p>
-    <ul>
-      <li>Ionic Framework (Ionic Angular) — UI e componentes móveis</li>
-      <li>Angular — Estrutura de aplicação e rotas</li>
-      <li>TypeScript — Linguagem principal</li>
-      <li>sql.js (SQLite via WebAssembly) — Banco de dados SQLite em memória, persistido em LocalStorage</li>
-      <li>Capacitor — Integração nativa (configuração disponível)</li>
-      <li>Karma / Jasmine — Estrutura de testes (configuração presente)</li>
-      <li>SCSS — Estilização e tema</li>
-    </ul>
-
-    <p><strong>Autor</strong></p>
-    <p>Lucas Pinheiro dos Santos</p>
-
-    <p style="margin-top:8px; font-size:0.9rem; color:var(--vp-text-muted);">Versão do projeto: entrega acadêmica</p>
+  <div class="sobre-hero animate-fade-in-up">
+    <div class="sobre-logo">💼</div>
+    <h1>VendaPro</h1>
+    <p class="sobre-tagline">Gestão comercial inteligente para o seu negócio</p>
+    <span class="sobre-version">Versão 1.0.0</span>
   </div>
+
+  <div class="vp-card sobre-block animate-fade-in-up animate-delay-1">
+    <h2>Sobre o projeto</h2>
+    <p>
+      O VendaPro é um sistema de ponto de venda (PDV) desenvolvido para demonstração acadêmica,
+      com foco em gestão de clientes, produtos, vendas, devoluções, recebimentos e relatórios gerenciais.
+    </p>
+  </div>
+
+  <div class="vp-card sobre-block animate-fade-in-up animate-delay-2">
+    <h2>Funcionalidades principais</h2>
+    <ul class="sobre-list">
+      <li>Cadastro e listagem de usuários, clientes e produtos</li>
+      <li>Registro de vendas com carrinho e controle de estoque</li>
+      <li>Histórico de vendas e detalhamento por pedido</li>
+      <li>Devoluções e módulo financeiro (contas a receber)</li>
+      <li>Relatórios com indicadores e ranking de produtos</li>
+      <li>Autenticação e controle de acesso por perfil</li>
+    </ul>
+  </div>
+
+  <div class="vp-card sobre-block animate-fade-in-up animate-delay-3">
+    <h2>Tecnologias utilizadas</h2>
+    <div class="tech-grid">
+      <div class="tech-chip">
+        <span class="tech-name">Ionic</span>
+        <span class="tech-desc">UI e componentes móveis</span>
+      </div>
+      <div class="tech-chip">
+        <span class="tech-name">Angular</span>
+        <span class="tech-desc">Estrutura e rotas</span>
+      </div>
+      <div class="tech-chip">
+        <span class="tech-name">TypeScript</span>
+        <span class="tech-desc">Linguagem principal</span>
+      </div>
+      <div class="tech-chip">
+        <span class="tech-name">SQLite</span>
+        <span class="tech-desc">Banco local (sql.js)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="vp-card sobre-block sobre-credits animate-fade-in-up animate-delay-4">
+    <h2>Créditos</h2>
+    <p class="credit-name">Lucas Pinheiro dos Santos</p>
+    <p class="credit-role">Desenvolvedor</p>
+    <p class="credit-note">Projeto acadêmico — VendaPro © 2025</p>
+  </div>
+
 </ion-content>

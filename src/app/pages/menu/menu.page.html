@@ -1,7 +1,10 @@
-<ion-header>
+<ion-header class="dashboard-header">
   <ion-toolbar>
     <ion-title>
-      <span class="toolbar-brand">💼 VendaPro</span>
+      <span class="toolbar-brand">
+        <ion-icon name="briefcase-outline" class="brand-icon"></ion-icon>
+        VendaPro
+      </span>
     </ion-title>
     <ion-buttons slot="end">
       <ion-button id="btn-sair" (click)="sair()" fill="clear" class="btn-logout">
@@ -11,44 +14,48 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="vp-page-content">
+<ion-content class="vp-page-content dashboard-page">
 
-  <!-- Saudação -->
-  <div class="greeting-section animate-fade-in-up">
-    <div class="greeting-text">
-      <p class="greeting-sub">{{ saudacao }},</p>
-      <h1 class="greeting-name">{{ usuario?.nome || 'Usuário' }} 👋</h1>
-    </div>
-    <div class="greeting-date">
-    <span>{{ currentDate | date:'dd/MM' }}</span>
+  <div class="dashboard-hero animate-fade-in-up">
+    <div class="greeting-section">
+      <div class="greeting-text">
+        <p class="greeting-sub">{{ saudacao }},</p>
+        <h1 class="greeting-name">{{ usuario?.nome || 'Usuário' }}</h1>
+        <p class="greeting-hint">Painel de controle do seu negócio</p>
+      </div>
+      <div class="greeting-date">
+        <span class="date-day">{{ currentDate | date:'dd' }}</span>
+        <span class="date-month">{{ currentDate | date:'MMM yyyy' }}</span>
+      </div>
     </div>
   </div>
 
-  <!-- Stats -->
+  <p class="vp-section-title animate-fade-in-up animate-delay-1">Indicadores</p>
+
   <div class="stats-grid animate-fade-in-up animate-delay-1">
-    <div class="stat-chip" id="stat-vendas">
-      <div class="stat-icon" style="background: rgba(108,99,255,0.15)">🛒</div>
+    <div class="stat-chip stat-vendas" id="stat-vendas">
+      <div class="stat-icon">🛒</div>
       <div class="stat-info">
         <div class="stat-val">{{ stats.totalVendas }}</div>
         <div class="stat-lbl">Vendas</div>
       </div>
     </div>
-    <div class="stat-chip" id="stat-faturado">
-      <div class="stat-icon" style="background: rgba(0,212,170,0.15)">💰</div>
+    <div class="stat-chip stat-faturado" id="stat-faturado">
+      <div class="stat-icon">💰</div>
       <div class="stat-info">
         <div class="stat-val">R$ {{ stats.valorVendido | number:'1.0-0' }}</div>
         <div class="stat-lbl">Faturado</div>
       </div>
     </div>
-    <div class="stat-chip" id="stat-estoque">
-      <div class="stat-icon" style="background: rgba(255,179,71,0.15)">📦</div>
+    <div class="stat-chip stat-estoque" id="stat-estoque">
+      <div class="stat-icon">📦</div>
       <div class="stat-info">
         <div class="stat-val">{{ stats.estoque }}</div>
         <div class="stat-lbl">Estoque</div>
       </div>
     </div>
-    <div class="stat-chip" id="stat-pendentes">
-      <div class="stat-icon" style="background: rgba(255,75,110,0.15)">⏳</div>
+    <div class="stat-chip stat-pendentes" id="stat-pendentes">
+      <div class="stat-icon">⏳</div>
       <div class="stat-info">
         <div class="stat-val">{{ stats.pendentes }}</div>
         <div class="stat-lbl">Pendentes</div>
@@ -56,23 +63,27 @@
     </div>
   </div>
 
-  <div class="last-sale-card animate-fade-in-up animate-delay-2">
-    <p class="vp-section-title">Última Venda</p>
+  <div class="last-sale-card vp-card animate-fade-in-up animate-delay-2">
+    <div class="last-sale-header">
+      <span class="last-sale-title">Última venda</span>
+      <ion-icon name="receipt-outline"></ion-icon>
+    </div>
     <div *ngIf="ultimaVenda; else semUltimaVenda" class="last-sale-info">
       <div class="last-sale-row"><strong>Venda #{{ ultimaVenda.id }}</strong></div>
       <div class="last-sale-row">Cliente: {{ ultimaVenda.cliente_nome }}</div>
-      <div class="last-sale-row">Total: R$ {{ ultimaVenda.total | number:'1.2-2' }}</div>
-      <div class="last-sale-row">Data: {{ ultimaVenda.data_venda | date:'dd/MM/yyyy HH:mm' }}</div>
+      <div class="last-sale-row highlight">Total: R$ {{ ultimaVenda.total | number:'1.2-2' }}</div>
+      <div class="last-sale-row muted">{{ ultimaVenda.data_venda | date:'dd/MM/yyyy HH:mm' }}</div>
     </div>
     <ng-template #semUltimaVenda>
       <div class="empty-note">Nenhuma venda registrada ainda.</div>
     </ng-template>
   </div>
 
-  <!-- Quick Action -->
   <div class="quick-action animate-fade-in-up animate-delay-2">
     <button class="btn-nova-venda" id="btn-nova-venda-quick" (click)="navegar('/nova-venda')">
-      <span class="btn-icon">🛒</span>
+      <span class="btn-icon-wrap">
+        <ion-icon name="cart-outline"></ion-icon>
+      </span>
       <div class="btn-text">
         <span class="btn-title">Nova Venda</span>
         <span class="btn-desc">Registrar venda agora</span>
@@ -81,8 +92,7 @@
     </button>
   </div>
 
-  <!-- Grade de Módulos -->
-  <p class="vp-section-title animate-fade-in-up animate-delay-2">Módulos</p>
+  <p class="vp-section-title animate-fade-in-up animate-delay-3">Módulos</p>
 
   <div class="menu-grid animate-fade-in-up animate-delay-3">
     <button
@@ -90,14 +100,14 @@
       class="menu-item"
       [id]="'menu-item-' + i"
       (click)="navegar(item.rota)">
-      <div class="item-icon" [style.background]="item.cor + '22'" [style.color]="item.cor">
+      <div class="item-icon" [ngClass]="'icon-tone-' + (i % 6)">
         <ion-icon [name]="item.icon"></ion-icon>
       </div>
       <div class="item-info">
         <span class="item-label">{{ item.label }}</span>
         <span class="item-desc">{{ item.desc }}</span>
       </div>
-      <ion-icon name="arrow-forward-outline" class="item-arrow"></ion-icon>
+      <ion-icon name="chevron-forward-outline" class="item-arrow"></ion-icon>
     </button>
   </div>
 

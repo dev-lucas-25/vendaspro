@@ -10,7 +10,8 @@ import {
   peopleOutline, cubeOutline, cartOutline, personOutline,
   statsChartOutline, returnDownBackOutline, walletOutline,
   logOutOutline, settingsOutline, arrowForwardOutline,
-  informationCircleOutline
+  informationCircleOutline, briefcaseOutline, receiptOutline,
+  chevronForwardOutline
 } from 'ionicons/icons';
 import { UsuarioService } from '../../services/usuario';
 import { RelatoriosService } from '../../services/relatorios';
@@ -54,7 +55,8 @@ export class MenuPage implements OnInit {
       peopleOutline, cubeOutline, cartOutline, personOutline,
       statsChartOutline, returnDownBackOutline, walletOutline,
       logOutOutline, settingsOutline, arrowForwardOutline,
-      informationCircleOutline
+      informationCircleOutline, briefcaseOutline, receiptOutline,
+      chevronForwardOutline
     });
   }
 

@@ -19,6 +19,7 @@
    VendaPro Design System - Variables
    ====================================== */
 @import "./theme/variables.scss";
+@import "./theme/shared-pages.scss";
 
 /* ======================================
    Global Styles & Typography
@@ -143,15 +144,21 @@ ion-textarea::placeholder {
 
 /* Buttons */
 ion-button {
-  --border-radius: var(--vp-radius-md);
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --padding-top: 10px;
-  --padding-bottom: 10px;
+  --border-radius: var(--vp-radius-lg);
+  --padding-start: 18px;
+  --padding-end: 18px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  min-height: 48px;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: none;
   transition: all var(--vp-transition-base);
+}
+
+ion-button ion-icon[slot="start"],
+ion-button ion-icon[slot="end"] {
+  font-size: 1.15rem;
 }
 
 ion-button[fill="solid"] {
@@ -200,9 +207,19 @@ ion-button[disabled] {
 }
 
 /* Cards */
+ion-searchbar {
+  --background: var(--vp-card-bg);
+  --border-radius: var(--vp-radius-2xl);
+  --box-shadow: var(--vp-shadow-sm);
+  --color: var(--vp-text-primary);
+  --placeholder-color: var(--vp-text-tertiary);
+  --icon-color: var(--vp-primary);
+  --clear-button-color: var(--vp-text-secondary);
+}
+
 ion-card {
   --background: var(--vp-card-bg);
-  border-radius: var(--vp-radius-lg);
+  border-radius: var(--vp-radius-2xl);
   border: 1px solid var(--vp-card-border);
   box-shadow: var(--vp-shadow-sm);
   margin: 0 0 var(--vp-space-lg) 0;
@@ -336,7 +353,7 @@ ion-toolbar {
 
 .vp-card {
   background: var(--vp-card-bg);
-  border-radius: var(--vp-radius-lg);
+  border-radius: var(--vp-radius-2xl);
   border: 1px solid var(--vp-card-border);
   padding: var(--vp-space-lg);
   margin-bottom: var(--vp-space-lg);
@@ -375,7 +392,7 @@ ion-toolbar {
 
 .vp-stat-card {
   background: var(--vp-card-bg);
-  border-radius: var(--vp-radius-lg);
+  border-radius: var(--vp-radius-2xl);
   border: 1px solid var(--vp-card-border);
   padding: var(--vp-space-lg);
   display: flex;

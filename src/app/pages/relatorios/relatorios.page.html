@@ -7,11 +7,16 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="vp-page-content">
+<ion-content class="vp-page-content relatorios-page">
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
+  <div class="relatorios-intro animate-fade-in-up" *ngIf="!carregando">
+    <h2 class="intro-title">Visão geral</h2>
+    <p class="intro-desc">Indicadores e desempenho do seu negócio</p>
+  </div>
 
   <div *ngIf="carregando" class="vp-empty-state">
     <ion-spinner name="crescent" color="primary"></ion-spinner>
@@ -19,57 +24,56 @@
 
   <div *ngIf="!carregando" class="animate-fade-in-up">
 
-    <!-- KPIs principais -->
-    <p class="vp-section-title">📊 Indicadores</p>
+    <p class="vp-section-title">Indicadores (KPIs)</p>
 
     <div class="kpi-grid">
-      <div class="kpi-card" id="kpi-vendas">
-        <div class="kpi-icon" style="background: rgba(108,99,255,0.15); color: #8B84FF;">🛒</div>
+      <div class="kpi-card kpi-vendas" id="kpi-vendas">
+        <div class="kpi-icon">🛒</div>
         <div class="kpi-val">{{ totalVendas }}</div>
         <div class="kpi-lbl">Total de Vendas</div>
       </div>
-      <div class="kpi-card" id="kpi-faturado">
-        <div class="kpi-icon" style="background: rgba(0,212,170,0.15); color: #00D4AA;">💰</div>
+      <div class="kpi-card kpi-faturado" id="kpi-faturado">
+        <div class="kpi-icon">💰</div>
         <div class="kpi-val">R$ {{ valorVendido | number:'1.0-0' }}</div>
         <div class="kpi-lbl">Faturado</div>
       </div>
-      <div class="kpi-card" id="kpi-estoque">
-        <div class="kpi-icon" style="background: rgba(255,179,71,0.15); color: #FFB347;">📦</div>
+      <div class="kpi-card kpi-estoque" id="kpi-estoque">
+        <div class="kpi-icon">📦</div>
         <div class="kpi-val">{{ estoque }}</div>
         <div class="kpi-lbl">Estoque Total</div>
       </div>
-      <div class="kpi-card" id="kpi-pendentes">
-        <div class="kpi-icon" style="background: rgba(255,75,110,0.15); color: #FF4B6E;">⏳</div>
+      <div class="kpi-card kpi-pendentes" id="kpi-pendentes">
+        <div class="kpi-icon">⏳</div>
         <div class="kpi-val">{{ pendentes }}</div>
         <div class="kpi-lbl">Pendentes</div>
       </div>
     </div>
 
-    <!-- Produtos mais vendidos -->
-    <p class="vp-section-title">🏆 Produtos Mais Vendidos</p>
+    <div class="relatorios-section">
+      <p class="vp-section-title">Produtos mais vendidos</p>
 
-    <div *ngIf="produtosMaisVendidos.length === 0" class="sem-dados">
-      <span>Ainda não há vendas registradas.</span>
-    </div>
+      <div *ngIf="produtosMaisVendidos.length === 0" class="sem-dados">
+        <span>Ainda não há vendas registradas.</span>
+      </div>
 
-    <div class="ranking-list">
-      <div *ngFor="let p of produtosMaisVendidos; let i = index"
-           class="ranking-item"
-           [id]="'ranking-produto-' + (i+1)">
-        <div class="ranking-pos" [class]="'pos-' + (i+1)">{{ i + 1 }}º</div>
-        <div class="ranking-info">
-          <span class="r-nome">{{ p.nome }}</span>
-          <span class="r-qtd">{{ p.quantidade_vendida }} unidades vendidas</span>
-        </div>
-        <div class="ranking-fat">
-          R$ {{ p.total_faturado | number:'1.0-0' }}
+      <div class="ranking-list" *ngIf="produtosMaisVendidos.length > 0">
+        <div *ngFor="let p of produtosMaisVendidos; let i = index"
+             class="ranking-item"
+             [id]="'ranking-produto-' + (i+1)">
+          <div class="ranking-pos" [class]="'pos-' + (i+1)">{{ i + 1 }}º</div>
+          <div class="ranking-info">
+            <span class="r-nome">{{ p.nome }}</span>
+            <span class="r-qtd">{{ p.quantidade_vendida }} unidades vendidas</span>
+          </div>
+          <div class="ranking-fat">
+            R$ {{ p.total_faturado | number:'1.0-0' }}
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Estoque baixo -->
-    <div *ngIf="estoqueBaixo.length > 0">
-      <p class="vp-section-title">⚠️ Estoque Baixo (≤ 10 un.)</p>
+    <div class="relatorios-section" *ngIf="estoqueBaixo.length > 0">
+      <p class="vp-section-title vp-section-warning">Estoque baixo (≤ 10 un.)</p>
       <div class="estoque-baixo-list">
         <div *ngFor="let p of estoqueBaixo"
              class="estoque-baixo-item"
